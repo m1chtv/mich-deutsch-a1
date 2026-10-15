@@ -146,10 +146,6 @@ Pull Request و Issue خوش‌آمد است. برای اضافه‌کردن م�
 
 ## 📄 مجوز و منابع
 
-- کد این پروژه تحت مجوز [MIT](LICENSE) منتشر شده است.
-- Bootstrap و Bootstrap Icons: مجوز MIT — Baloo Bhaijaan 2: مجوز SIL OFL 1.1 (متن مجوزها در `assets/vendor/`).
-- این پروژه رسمی نیست و هیچ ارتباطی با ناشر کتاب *Starten wir* ندارد؛ فقط یادداشت‌های شخصی کلاس برای تمرین است. برای یادگیری کامل، از کتاب اصلی و معلم کلاس استفاده کن.
-
 <div align="center">
 
 ساخته‌شده با ❤️ توسط [**@m1chtv**](https://github.com/m1chtv)
