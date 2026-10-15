@@ -67,7 +67,7 @@ body { padding-top: env(safe-area-inset-top, 0px); }
 .tabbar .nav { max-width: 640px; margin: 0 auto; flex-wrap: nowrap; }
 .tabbar .nav-link {
   display: flex; flex-direction: column; align-items: center; gap: .05rem;
-  font-size: .7rem; padding: .35rem 0; border-radius: 1rem; border: 0; background: none;
+  font-size: .66rem; padding: .35rem 0; border-radius: 1rem; border: 0; background: none;
   color: var(--bs-secondary-color); width: 100%;
 }
 .tabbar .nav-link .bi { font-size: 1.35rem; transition: transform .2s; }
@@ -77,3 +77,16 @@ body { padding-top: env(safe-area-inset-top, 0px); }
 .fade-in > * { animation: up .35s both; }
 @keyframes up { from { opacity: 0; transform: translateY(10px); } }
 @media (prefers-reduced-motion: reduce) { .fade-in > * { animation: none; } }
+
+/* flashcards */
+.flip { perspective: 1200px; cursor: pointer; }
+.flip-inner { position: relative; height: 250px; transition: transform .5s; transform-style: preserve-3d; }
+.flip.on .flip-inner { transform: rotateY(180deg); }
+.face {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem;
+  padding: 1.25rem; text-align: center; border-radius: 1.5rem; background: var(--bs-tertiary-bg);
+  box-shadow: 0 10px 30px rgba(20, 20, 40, .1); -webkit-backface-visibility: hidden; backface-visibility: hidden;
+}
+.face.back { transform: rotateY(180deg); background: linear-gradient(135deg, rgba(var(--bs-danger-rgb), .14), var(--bs-tertiary-bg)); }
+.face .de { font-size: 2rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .flip-inner { transition: none; } }

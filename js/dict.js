@@ -1,0 +1,36 @@
+/* Dictionary starter words (A1).  Format: [type, German, Persian]
+   type: m = der, f = die, n = das (nouns) · v = verb · o = other word
+   Phrases, numbers and verbs from data.js are added to the dictionary automatically. */
+const WORDS = [
+  /* nouns */
+  ['m', 'Mann', 'مرد'], ['f', 'Frau', 'زن / خانم'], ['n', 'Kind', 'کودک'], ['m', 'Freund', 'دوست (پسر)'], ['f', 'Freundin', 'دوست (دختر)'],
+  ['m', 'Lehrer', 'معلم (آقا)'], ['f', 'Lehrerin', 'معلم (خانم)'], ['m', 'Student', 'دانشجو (آقا)'], ['f', 'Studentin', 'دانشجو (خانم)'],
+  ['f', 'Familie', 'خانواده'], ['f', 'Mutter', 'مادر'], ['m', 'Vater', 'پدر'], ['m', 'Bruder', 'برادر'], ['f', 'Schwester', 'خواهر'],
+  ['m', 'Sohn', 'پسر (فرزند)'], ['f', 'Tochter', 'دختر (فرزند)'], ['m', 'Name', 'نام'], ['f', 'Sprache', 'زبان'], ['n', 'Wort', 'کلمه'],
+  ['m', 'Satz', 'جمله'], ['f', 'Zahl', 'عدد'], ['f', 'Frage', 'سؤال'], ['f', 'Antwort', 'جواب'], ['n', 'Problem', 'مشکل'],
+  ['n', 'Haus', 'خانه'], ['f', 'Wohnung', 'آپارتمان'], ['f', 'Stadt', 'شهر'], ['n', 'Land', 'کشور'], ['f', 'Straße', 'خیابان'],
+  ['n', 'Auto', 'ماشین'], ['m', 'Bus', 'اتوبوس'], ['m', 'Zug', 'قطار'], ['f', 'Schule', 'مدرسه'], ['m', 'Kurs', 'دوره / کلاس'],
+  ['f', 'Hausaufgabe', 'تکلیف'], ['f', 'Arbeit', 'کار'], ['n', 'Geld', 'پول'],
+  ['n', 'Wasser', 'آب'], ['n', 'Brot', 'نان'], ['m', 'Kaffee', 'قهوه'], ['m', 'Tee', 'چای'], ['f', 'Milch', 'شیر'], ['m', 'Apfel', 'سیب'], ['n', 'Essen', 'غذا'],
+  ['m', 'Tag', 'روز'], ['f', 'Woche', 'هفته'], ['m', 'Monat', 'ماه'], ['n', 'Jahr', 'سال'], ['f', 'Zeit', 'زمان'],
+  ['m', 'Hund', 'سگ'], ['f', 'Katze', 'گربه'],
+  /* classroom */
+  ['n', 'Buch', 'کتاب'], ['n', 'Heft', 'دفتر'], ['m', 'Stift', 'خودکار / مداد'], ['m', 'Tisch', 'میز'], ['m', 'Stuhl', 'صندلی'],
+  ['f', 'Tafel', 'تخته'], ['f', 'Tür', 'در'], ['n', 'Fenster', 'پنجره'], ['f', 'Tasche', 'کیف'], ['n', 'Handy', 'موبایل'], ['f', 'Uhr', 'ساعت'],
+  /* verbs */
+  ['v', 'sein', 'بودن'], ['v', 'haben', 'داشتن'], ['v', 'machen', 'انجام دادن'], ['v', 'gehen', 'رفتن'], ['v', 'wohnen', 'ساکن بودن / زندگی کردن'],
+  ['v', 'sprechen', 'صحبت کردن'], ['v', 'sagen', 'گفتن'], ['v', 'fragen', 'پرسیدن'], ['v', 'antworten', 'جواب دادن'], ['v', 'essen', 'خوردن'],
+  ['v', 'arbeiten', 'کار کردن'], ['v', 'spielen', 'بازی کردن'], ['v', 'lesen', 'خواندن'], ['v', 'sehen', 'دیدن'], ['v', 'brauchen', 'نیاز داشتن'],
+  ['v', 'verstehen', 'فهمیدن'], ['v', 'wiederholen', 'تکرار کردن'], ['v', 'öffnen', 'باز کردن'], ['v', 'schließen', 'بستن'],
+  ['v', 'fotografieren', 'عکس گرفتن'], ['v', 'putzen', 'تمیز کردن / پاک کردن'], ['v', 'sitzen', 'نشسته بودن'],
+  /* adjectives, adverbs, question words, others */
+  ['o', 'gut', 'خوب'], ['o', 'schlecht', 'بد'], ['o', 'groß', 'بزرگ'], ['o', 'klein', 'کوچک'], ['o', 'neu', 'جدید'], ['o', 'alt', 'قدیمی / پیر'],
+  ['o', 'schön', 'زیبا'], ['o', 'schnell', 'سریع'], ['o', 'langsam', 'آهسته'], ['o', 'heiß', 'داغ'], ['o', 'kalt', 'سرد'],
+  ['o', 'ja', 'بله'], ['o', 'nein', 'نه'], ['o', 'vielleicht', 'شاید'], ['o', 'bitte', 'لطفاً / خواهش می‌کنم'], ['o', 'danke', 'ممنون'],
+  ['o', 'Entschuldigung', 'ببخشید'], ['o', 'Tschüss', 'خداحافظ (غیررسمی)'], ['o', 'Auf Wiedersehen', 'خداحافظ (رسمی)'],
+  ['o', 'Guten Morgen', 'صبح بخیر'], ['o', 'Guten Abend', 'عصر بخیر'], ['o', 'Gute Nacht', 'شب بخیر'],
+  ['o', 'wie', 'چگونه'], ['o', 'was', 'چه چیزی'], ['o', 'wer', 'چه کسی'], ['o', 'wo', 'کجا'], ['o', 'woher', 'از کجا'], ['o', 'wohin', 'به کجا'],
+  ['o', 'wann', 'کی'], ['o', 'warum', 'چرا'], ['o', 'hier', 'اینجا'], ['o', 'dort', 'آنجا'],
+  ['o', 'heute', 'امروز'], ['o', 'morgen', 'فردا'], ['o', 'gestern', 'دیروز'], ['o', 'jetzt', 'حالا'], ['o', 'immer', 'همیشه'], ['o', 'nie', 'هرگز'],
+  ['o', 'und', 'و'], ['o', 'oder', 'یا'], ['o', 'aber', 'اما'], ['o', 'sehr', 'خیلی'], ['o', 'auch', 'هم / همچنین'], ['o', 'nicht', 'نه (نفی)'],
+];
