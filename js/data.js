@@ -28,3 +28,20 @@ const NUMS=[[0,"null"],[1,"eins"],[2,"zwei"],[3,"drei"],[4,"vier"],[5,"fünf"],[
 const ALPH=[["A","a","آ"],["B","be","بِه"],["C","tse","تسِه"],["D","de","دِه"],["E","e","اِ"],["F","ef","اِف"],["G","ge","گِه"],["H","ha","هآ"],["I","i","ای"],["J","jot","یُت"],["K","ka","کآ"],["L","el","اِل"],["M","em","اِم"],["N","en","اِن"],["O","o","اُ"],["P","pe","پِه"],["Q","ku","کو"],["R","er","اِر"],["S","es","اِس"],["T","te","تِه"],["U","u","او"],["V","fau","فاو"],["W","we","وِه"],["X","ix","ایکس"],["Y","ypsilon","اوپسیلون"],["Z","tset","تسِت"],["Ä","ä","اِ"],["Ö","ö","اُ گرد"],["Ü","ü","اوی"],["ß","Eszett","اِس‌تسِت"]];
 const ALW={A:'Apfel',B:'Ball',C:'Cola',D:'Dach',E:'Eis',F:'Fisch',G:'Gabel',H:'Haus',I:'Igel',J:'Jacke',K:'Katze',L:'Lampe',M:'Mutter',N:'Nase',O:'Orange',P:'Papier',Q:'Quelle',R:'Regen',S:'Sonne',T:'Tisch',U:'Uhr',V:'Vogel',W:'Wasser',X:'Xylophon',Y:'Ypsilon',Z:'Zebra','Ä':'Äpfel','Ö':'Öl','Ü':'Übung','ß':'Straße'};
 const spL=a=>a[0]==='ß'?'scharfes S, wie in Straße':a[0]+' wie '+ALW[a[0]];
+
+/* ---- Persian pronouns + Persian present-tense forms for the 7 class verbs ---- */
+const PRO_FA = [['ich', 'من'], ['du', 'تو'], ['er / sie / es', 'او (آقا / خانم / آن)'], ['wir', 'ما'], ['ihr', 'شما (جمع، غیررسمی)'], ['sie / Sie', 'آن‌ها / شما (رسمی)']];
+const PRO_SHORT = ['من', 'تو', 'او', 'ما', 'شما', 'آن‌ها'];
+const PRO_DE = ['ich', 'du', 'er', 'wir', 'ihr', 'sie'];
+const VFA = {
+  kommen: ['می‌آیم', 'می‌آیی', 'می‌آید', 'می‌آییم', 'می‌آیید', 'می‌آیند'],
+  lernen: ['یاد می‌گیرم', 'یاد می‌گیری', 'یاد می‌گیرد', 'یاد می‌گیریم', 'یاد می‌گیرید', 'یاد می‌گیرند'],
+  kaufen: ['می‌خرم', 'می‌خری', 'می‌خرد', 'می‌خریم', 'می‌خرید', 'می‌خرند'],
+  trinken: ['می‌نوشم', 'می‌نوشی', 'می‌نوشد', 'می‌نوشیم', 'می‌نوشید', 'می‌نوشند'],
+  heißen: ['نام دارم', 'نام داری', 'نام دارد', 'نام داریم', 'نام دارید', 'نام دارند'],
+  hören: ['می‌شنوم', 'می‌شنوی', 'می‌شنود', 'می‌شنویم', 'می‌شنوید', 'می‌شنوند'],
+  schreiben: ['می‌نویسم', 'می‌نویسی', 'می‌نویسد', 'می‌نویسیم', 'می‌نویسید', 'می‌نویسند'],
+};
+/* Letter names respelled so the German text-to-speech reads the letter itself */
+const LETTER_SAY = { A: 'ah', B: 'beh', C: 'tseh', D: 'deh', E: 'eh', F: 'eff', G: 'geh', H: 'hah', I: 'ie', J: 'jott', K: 'kah', L: 'ell', M: 'emm', N: 'enn', O: 'oh',
+  P: 'peh', Q: 'kuh', R: 'err', S: 'ess', T: 'teh', U: 'uh', V: 'fau', W: 'weh', X: 'iks', Y: 'üpsilon', Z: 'zett', 'Ä': 'äh', 'Ö': 'öh', 'Ü': 'üh', 'ß': 'ess zett' };

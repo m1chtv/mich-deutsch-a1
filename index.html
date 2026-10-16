@@ -29,34 +29,36 @@
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-  <main class="container app-main">
-    <header class="hero rounded-4 text-white p-4 mb-3">
-      <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <h1 class="h2 fw-bold mb-1"><i class="bi bi-translate"></i> آلمانی از صفر</h1>
-          <p class="mb-0 small opacity-75" dir="ltr">Starten wir A1 · تمرین کلاس</p>
+  <main class="app-main">
+    <div class="wrap">
+      <header class="hero rounded-4 text-white p-4 mb-3">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h1 class="h2 fw-bold mb-1"><i class="bi bi-translate"></i> آلمانی از صفر</h1>
+            <p class="mb-0 small opacity-75" dir="ltr">Starten wir A1 · تمرین کلاس</p>
+          </div>
+          <a class="btn btn-sm btn-outline-light rounded-circle" href="https://github.com/m1chtv"
+             target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
         </div>
-        <a class="btn btn-sm btn-outline-light rounded-circle" href="https://github.com/m1chtv"
-           target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
-      </div>
-      <div class="d-flex flex-wrap gap-2 mt-3">
-        <button class="btn btn-sm btn-outline-light rounded-pill" id="btn-slow" aria-pressed="false">
-          <i class="bi bi-hourglass-split"></i> تلفظ آهسته</button>
-        <button class="btn btn-sm btn-outline-light rounded-pill" id="btn-hide" aria-pressed="false">
-          <i class="bi bi-eye-slash-fill"></i> پنهان‌کردن ترجمه</button>
-        <button class="btn btn-sm btn-outline-light rounded-pill" id="btn-theme">
-          <i class="bi bi-moon-stars-fill"></i> <span>حالت تیره</span></button>
-        <button class="btn btn-sm btn-warning rounded-pill d-none" id="btn-install">
-          <i class="bi bi-download"></i> نصب اپ</button>
-      </div>
-    </header>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-sm btn-outline-light rounded-pill" id="btn-slow" aria-pressed="false">
+            <i class="bi bi-hourglass-split"></i> تلفظ آهسته</button>
+          <button class="btn btn-sm btn-outline-light rounded-pill" id="btn-hide" aria-pressed="false">
+            <i class="bi bi-eye-slash-fill"></i> پنهان‌کردن ترجمه</button>
+          <button class="btn btn-sm btn-outline-light rounded-pill" id="btn-theme">
+            <i class="bi bi-moon-stars-fill"></i> <span>حالت تیره</span></button>
+          <button class="btn btn-sm btn-warning rounded-pill d-none" id="btn-install">
+            <i class="bi bi-download"></i> نصب اپ</button>
+        </div>
+      </header>
 
-    <div id="view" class="fade-in"></div>
+      <div id="view" class="fade-in"></div>
 
-    <footer class="text-center small text-body-secondary mt-4">
-      ساخته‌شده با <i class="bi bi-heart-fill text-danger"></i> ·
-      <a class="link-secondary" href="https://github.com/m1chtv" target="_blank" rel="noopener">github.com/m1chtv</a>
-    </footer>
+      <footer class="text-center small text-body-secondary mt-4">
+        ساخته‌شده با <i class="bi bi-heart-fill text-danger"></i> ·
+        <a class="link-secondary" href="https://github.com/m1chtv" target="_blank" rel="noopener">github.com/m1chtv</a>
+      </footer>
+    </div>
   </main>
 
   <nav class="tabbar fixed-bottom" id="tabbar" aria-label="بخش‌ها"></nav>

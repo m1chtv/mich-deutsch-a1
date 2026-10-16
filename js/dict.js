@@ -34,3 +34,23 @@ const WORDS = [
   ['o', 'heute', 'امروز'], ['o', 'morgen', 'فردا'], ['o', 'gestern', 'دیروز'], ['o', 'jetzt', 'حالا'], ['o', 'immer', 'همیشه'], ['o', 'nie', 'هرگز'],
   ['o', 'und', 'و'], ['o', 'oder', 'یا'], ['o', 'aber', 'اما'], ['o', 'sehr', 'خیلی'], ['o', 'auch', 'هم / همچنین'], ['o', 'nicht', 'نه (نفی)'],
 ];
+
+/* ---- Every word that appeared on the whiteboard, grouped by lesson (not repeated from WORDS/phrases) ---- */
+const BOARD = [
+  ['معرفی (Vorstellung)', 'person-badge', [
+    ['o', 'formell', 'رسمی'], ['o', 'informell', 'غیررسمی'], ['m', 'Vorname', 'نام کوچک'], ['m', 'Nachname', 'نام خانوادگی'],
+    ['o', 'mein', 'من (مال من)'], ['o', 'bin', 'هستم (از sein)'], ['o', 'ist', 'است (از sein)']]],
+  ['صرف فعل (Konjugation)', 'pencil-square', [
+    ['f', 'Konjugation', 'صرف (فعل)'], ['n', 'Verb', 'فعل'], ['m', 'Verbstamm', 'ریشه‌ی فعل'], ['f', 'Endung', 'پایانه'], ['f', 'Formel', 'فرمول'],
+    ['n', 'Personalpronomen', 'ضمیر شخصی'], ['o', 'ich', 'من'], ['o', 'du', 'تو'], ['o', 'er', 'او (مرد)'], ['o', 'sie', 'او (زن) / آن‌ها'], ['o', 'es', 'آن'],
+    ['o', 'wir', 'ما'], ['o', 'ihr', 'شما (جمع، غیررسمی)'], ['o', 'Sie (formell)', 'شما (رسمی)']]],
+  ['کلاس و معنی (Synonym / Gegenteil)', 'easel2', [
+    ['n', 'Synonym', 'مترادف'], ['n', 'Gegenteil', 'متضاد'], ['o', 'darf', 'اجازه دارد (از dürfen)'], ['v', 'dürfen', 'اجازه داشتن'],
+    ['v', 'rausgehen', 'بیرون رفتن'], ['v', 'reinkommen', 'داخل آمدن'], ['o', 'hätte', 'داشتم (شکل مؤدبانه‌ی haben)'], ['o', 'eine', 'یک (برای اسم مؤنث)'],
+    ['v', 'bedeuten', 'معنی دادن / یعنی'], ['o', 'das', 'این / آن'], ['v', 'können', 'توانستن'], ['v', 'geben', 'دادن (es gibt = وجود دارد)'],
+    ['o', 'es gibt', 'وجود دارد'], ['o', 'alles', 'همه‌چیز'], ['o', 'klar', 'روشن / واضح'], ['o', 'abwesend', 'غایب'], ['o', 'anwesend', 'حاضر']]],
+  ['ترکیب حروف (Kombinationen)', 'mic-fill', [
+    ['f', 'Kombination', 'ترکیب'], ['o', 'manche', 'بعضی'], ['o', 'im', 'در (in dem)'], ['o', 'Deutsch', 'آلمانی (زبان)'], ['m', 'Bär', 'خرس'],
+    ['o', 'Leute', 'مردم'], ['o', 'frei', 'آزاد'], ['m', 'Raum', 'اتاق / فضا'], ['f', 'Reihe', 'ردیف'], ['o', 'rund', 'گرد'],
+    ['f', 'Seite', 'صفحه / طرف'], ['f', 'Sonne', 'خورشید'], ['v', 'sammeln', 'جمع کردن'], ['o', 'Häuser', 'خانه‌ها (جمع Haus)']]],
+];
