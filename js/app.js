@@ -13,25 +13,26 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
 };
 const ART = { m: ['der', 'primary'], f: ['die', 'danger'], n: ['das', 'success'] };
+const capHi = s => attr(s).replace(/[A-ZÄÖÜ]/g, m => `<b class="text-danger">${m}</b>`);
 const badge = t => (ART[t] ? `<span class="badge text-bg-${ART[t][1]} me-1">${ART[t][0]}</span>` : '');
 
 /* ================= state ================= */
 const TABS = [ // id, icon, short label, long label (desktop sidebar)
   ['phrases', 'chat-dots', 'عبارت‌ها', 'عبارت‌ها و کلمه‌ها'], ['numbers', '123', 'اعداد', 'اعداد'],
-  ['alphabet', 'alphabet-uppercase', 'الفبا', 'الفبا'], ['verbs', 'pencil-square', 'صرف', 'صرف فعل'],
-  ['sounds', 'mic-fill', 'تلفظ', 'تلفظ'], ['dict', 'book-half', 'دیکشنری', 'دیکشنری و فلش‌کارت'],
+  ['alphabet', 'alphabet-uppercase', 'الفبا', 'الفبا و تلفظ'], ['verbs', 'pencil-square', 'صرف', 'صرف فعل'],
+  ['artikel', 'tags', 'آرتیکل', 'حرف تعریف (Artikel)'], ['dict', 'book-half', 'دیکشنری', 'دیکشنری و فلش‌کارت'],
   ['quiz', 'bullseye', 'آزمون', 'آزمون'],
 ];
-const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck'];
+const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck', 'sunrise', 'question-circle'];
 const ui = {
   tab: 'phrases', verb: 0, slow: store.get('slow', false), hide: store.get('hide', false),
-  dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
+  asub: 'letters', art: 'm', dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
 };
 
 /* ================= speech ================= */
 function speak(text, slow = false) {
   if (!('speechSynthesis' in window)) return;
-  const clean = String(text).replace(/\([^)]*\)/g, '').replace('≠', ', Gegenteil von, ').replace(' / ', ', ').replace(/_+/g, ' ');
+  const clean = String(text).replace(/\([^)]*\)/g, '').replace('≠', ', Gegenteil von, ').replace(' / ', ', ').replace(/_+/g, ' ').replace(/→/g, ', ');
   const u = new SpeechSynthesisUtterance(clean);
   u.lang = 'de-DE';
   u.rate = (slow || ui.slow) ? 0.6 : 0.88;
@@ -66,7 +67,7 @@ const views = {
     ${grid('row-cols-3 row-cols-md-4 row-cols-lg-6', NUMS.map(n => `
       <div class="col"><button class="tile" data-say="${n[1]}" data-slow="1"><b>${n[0]}</b><span dir="ltr">${n[1]}</span></button></div>`).join(''))}`,
 
-  alphabet: () => `
+  letters: () => `
     <div class="alert alert-secondary small rounded-4">روی هر حرف بزن تا فقط نام همان حرف خوانده شود.</div>
     ${grid('row-cols-3 row-cols-md-5 row-cols-lg-6', ALPH.map(a => `
       <div class="col"><button class="tile" data-say="${LETTER_SAY[a[0]]}" data-slow="1">
@@ -101,7 +102,7 @@ const views = {
       </div>`;
   },
 
-  sounds: () => `
+  soundsPage: () => `
     <div class="alert alert-secondary small rounded-4">روی کلمه‌ها بزن تا تلفظ را بشنوی.</div>
     ${grid('row-cols-1 row-cols-lg-2', S.map(s => `
       <div class="col"><div class="card rounded-4 h-100"><div class="card-body">
@@ -109,6 +110,56 @@ const views = {
         <div class="d-flex flex-wrap gap-2" dir="ltr">${s[2].split(', ').map(w =>
           `<button class="btn btn-sm btn-outline-secondary rounded-pill" data-say="${w}" data-slow="1">${ico('volume-up-fill')} ${w}</button>`).join('')}</div>
       </div></div></div>`).join(''))}`,
+
+  alphabet: () => `<div class="d-flex flex-wrap gap-2 mb-3">${[['letters', 'حروف', 'alphabet-uppercase'], ['soundsPage', 'ترکیب حروف و تلفظ', 'mic-fill'], ['caps', 'حروف بزرگ', 'type']].map(s =>
+      `<button class="btn btn-sm rounded-pill ${ui.asub === s[0] ? 'btn-danger' : 'btn-outline-secondary'}" data-asub="${s[0]}">${ico(s[2])} ${s[1]}</button>`).join('')}</div>${views[ui.asub]()}`,
+
+  caps: () => `
+    <div class="card rounded-4 mb-3"><div class="card-body">
+      <h2 class="h6 mb-1" dir="ltr">${ico('type', 'text-danger')} Wann müssen wir den ersten Buchstaben großschreiben?</h2>
+      <p class="small text-body-secondary mb-0">کی باید حرف اول را بزرگ بنویسیم؟ در ۳ حالت (Im 3 Situationen):</p></div></div>
+    ${grid('row-cols-1 row-cols-lg-3', CAPS.map((c, i) => `
+      <div class="col"><div class="card rounded-4 h-100"><div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-1"><span class="badge rounded-pill text-bg-danger">${i + 1}</span><b>${c.title}</b></div>
+        <p class="small text-body-secondary">${c.fa}</p>
+        ${c.ex.map(x => `<div class="d-flex align-items-center gap-2 mb-2"><div class="de flex-grow-1" dir="ltr">${capHi(x)}</div>${sayBtn(x, 'btn-warning btn-sm rounded-circle')}</div>`).join('')}
+      </div></div></div>`).join(''))}
+    <div class="alert alert-secondary small rounded-4 mt-3">sagen = گفتن · buchstabieren = هجی کردن (حرف‌به‌حرف گفتن). مثلاً: «Wie schreibt man das؟» ◂ «Buchstabieren Sie bitte!»</div>
+    <button class="btn btn-danger rounded-pill" data-qgo="caps">${ico('bullseye')} تمرین حروف بزرگ</button>`,
+
+  artikel: () => {
+    const GN = { m: ['مذکر', 'maskulin', 'ein', 'ein Tisch'], n: ['خنثی', 'neutrum', 'ein', 'ein Fenster'], f: ['مؤنث', 'feminin', 'eine', 'eine Tür'] };
+    const rowsOf = g => ARTIKEL[g].map(([de, fa]) => `<div class="d-flex align-items-center gap-2 mb-2">
+        <div class="flex-grow-1"><div class="de" dir="ltr" style="font-size:1.05rem">${attr(de)}</div>
+          <div class="fa text-body-secondary ${ui.hide ? 'blur-text' : ''}">${attr(fa)}</div></div>${sayBtn(de, 'btn-warning btn-sm rounded-circle')}</div>`).join('');
+    const saved = new Set(store.get('saved', []));
+    const nouns = dictEntries().filter(e => e.t === ui.art).sort((a, b) => normDe(a.de).localeCompare(normDe(b.de)));
+    return `
+      <div class="card rounded-4 mb-3"><div class="card-body d-flex align-items-start gap-2"><div class="flex-grow-1">
+        <h2 class="h6 mb-1" dir="ltr">Alle Nomen haben Artikel im Deutsch.</h2>
+        <p class="small text-body-secondary mb-2">همه‌ی اسم‌ها در آلمانی یک حرف تعریف (Artikel) دارند:
+          <b class="text-primary">der</b> · <b class="text-danger">die</b> · <b class="text-success">das</b></p>
+        <p class="mb-0" dir="ltr"><b>Tipp:</b> Sie müssen nur auswendig lernen.</p>
+        <p class="small text-body-secondary mb-0">نکته: فقط باید حفظ کنی؛ هر اسم را همیشه همراه artikelش یاد بگیر.</p></div>
+        ${sayBtn('Alle Nomen haben Artikel im Deutsch. Tipp: Sie müssen nur auswendig lernen.')}</div></div>
+      ${grid('row-cols-1 row-cols-md-3', ['m', 'n', 'f'].map(g => `
+        <div class="col"><div class="card rounded-4 h-100"><div class="card-body">
+          <div class="d-flex align-items-center gap-2 mb-1"><span class="badge fs-5 text-bg-${ART[g][1]}">${ART[g][0]}</span><b>${GN[g][0]}</b><span class="text-body-secondary small" dir="ltr">${GN[g][1]}</span></div>
+          <p class="small text-body-secondary">نامعین: <b dir="ltr">${GN[g][3]}</b></p>${rowsOf(g)}</div></div></div>`).join(''))}
+      <div class="card rounded-4 mt-3"><div class="card-body"><h2 class="h6">جدول خلاصه</h2>
+        <table class="table table-sm align-middle text-center mb-0"><thead><tr><th>جنس</th><th>معین</th><th>نامعین</th><th>جمع (همه)</th></tr></thead><tbody>
+          ${['m', 'n', 'f'].map(g => `<tr><td>${GN[g][0]}</td><td><span class="badge text-bg-${ART[g][1]}">${ART[g][0]}</span></td><td dir="ltr">${GN[g][2]}</td><td><span class="badge text-bg-danger">die</span></td></tr>`).join('')}
+        </tbody></table></div></div>
+      <h2 class="section-title">${ico('lightbulb')} نشانه‌هایی که کمک می‌کنند (قاعده‌ی کلی؛ استثنا دارد)</h2>
+      ${grid('row-cols-1 row-cols-lg-3', ART_TIPS.map(t => `<div class="col"><div class="entry"><span class="badge fs-6 text-bg-${t[1]}">${t[0]}</span>
+        <div class="grow"><div class="fw-bold" dir="ltr">${t[2]}</div><div class="small text-body-secondary" dir="ltr">${t[3]}</div></div></div></div>`).join(''))}
+      <h2 class="section-title">${ico('collection')} همه‌ی اسم‌های دیکشنری</h2>
+      <div class="d-flex flex-wrap gap-2 mb-2">${['m', 'n', 'f'].map(g =>
+        `<button class="btn btn-sm rounded-pill ${ui.art === g ? 'btn-' + ART[g][1] : 'btn-outline-' + ART[g][1]}" data-artf="${g}">${ART[g][0]}</button>`).join('')}</div>
+      <div class="small text-body-secondary mb-2">${nouns.length} اسم</div>
+      ${grid('row-cols-1 row-cols-lg-2', nouns.map(e => dictRow(e, saved.has(e.key))).join(''))}
+      <button class="btn btn-danger rounded-pill mt-3" data-qgo="artikel">${ico('bullseye')} تمرین der / die / das</button>`;
+  },
 
   dict: () => `
     ${['add', 'cards'].includes(ui.dfilter) ? '' : `<div class="input-group mb-2 shadow-sm rounded-4 overflow-hidden">
@@ -320,6 +371,8 @@ const MODES = [
   { id: 'num', title: 'اعداد', desc: 'رقم ← کلمه', icon: '123' },
   { id: 'numl', title: 'شنیدن عدد', desc: 'بشنو و رقم را بزن', icon: 'ear-fill' },
   { id: 'let', title: 'حروف', desc: 'نام حرف را بشنو', icon: 'alphabet-uppercase' },
+  { id: 'caps', title: 'حروف بزرگ', desc: 'کدام درست نوشته شده؟', icon: 'type' },
+  { id: 'seq', title: 'ترتیب', desc: 'سلام‌ها و اعداد', icon: 'list-ol' },
   { id: 'mix', title: 'ترکیبی', desc: 'همه‌چیز با هم', icon: 'shuffle' },
 ];
 const MODE = Object.fromEntries(MODES.map(m => [m.id, m]));
@@ -353,6 +406,26 @@ function make(mode) {
     case 'order': { const S2 = P.flatMap(g => g[1]).filter(x => !/[≠/]/.test(x[0]) && x[0].split(' ').length >= 3 && x[0].split(' ').length <= 7);
       const c = pick(S2, 1)[0], tokens = c[0].split(' ');
       return { kind: 'order', mode, q: c[1], qRtl: true, tokens: shuffle(tokens), ans: c[0], after: c[0] }; }
+    case 'caps': {
+      if (Math.random() < 0.5) {
+        const c = pick(E.filter(e => ART[e.t]), 1)[0], ok = `${ART[c.t][0]} ${c.de}`;
+        return mc({ mode, q: 'کدام درست نوشته شده؟', qRtl: true, after: ok, ans: ok, wrong: [`${ART[c.t][0]} ${c.de.toLowerCase()}`] });
+      }
+      const s = pick(CAPS[2].ex, 1)[0];
+      return mc({ mode, q: 'کدام درست نوشته شده؟', qRtl: true, after: s, ans: s, wrong: [s.toLowerCase(), s.charAt(0).toLowerCase() + s.slice(1)] });
+    }
+    case 'seq': {
+      let seq, q;
+      if (Math.random() < 0.5) {
+        const day = ['Guten Morgen', 'Guten Tag', 'Guten Abend', 'Gute Nacht'], len = 3 + Math.floor(Math.random() * 2);
+        const st = Math.floor(Math.random() * (day.length - len + 1));
+        seq = day.slice(st, st + len); q = 'سلام‌ها را به ترتیب روز مرتب کن';
+      } else {
+        const st = Math.floor(Math.random() * 17);
+        seq = NUMS.slice(st, st + 4).map(n => n[1]); q = 'اعداد را به ترتیب (از کوچک به بزرگ) مرتب کن';
+      }
+      return { kind: 'order', mode, q, qRtl: true, tokens: shuffle(seq), sep: ' → ', ans: seq.join(' → '), after: seq.join(', ') };
+    }
     case 'num': { const c = pick(NUMS, 1)[0];
       return mc({ mode, q: String(c[0]), after: c[1], ans: c[1], wrong: others(NUMS, c, x => x[1]) }); }
     case 'numl': { const c = pick(NUMS, 1)[0];
@@ -455,7 +528,7 @@ function checkAnswer() {
     const v = $('#sp-in').value.trim();
     if (v) finishQ(foldDe(v) === foldDe(q.ans));
   } else if (q.kind === 'order') {
-    if (quiz.built.length) finishQ(quiz.built.map(i => q.tokens[i]).join(' ') === q.ans);
+    if (quiz.built.length) finishQ(quiz.built.map(i => q.tokens[i]).join(q.sep || ' ') === q.ans);
   }
 }
 function nextQ() {
@@ -515,6 +588,9 @@ document.addEventListener('click', e => {
   if ((el = on('[data-say]'))) return speak(el.dataset.say, el.dataset.slow === '1');
   if ((el = on('[data-tab]'))) { ui.tab = el.dataset.tab; return render(); }
   if ((el = on('[data-verb]'))) { ui.verb = +el.dataset.verb; return render(false); }
+  if ((el = on('[data-asub]'))) { ui.asub = el.dataset.asub; return render(false); }
+  if ((el = on('[data-artf]'))) { ui.art = el.dataset.artf; return render(false); }
+  if ((el = on('[data-qgo]'))) { ui.tab = 'quiz'; quiz.stage = 'home'; render(); return startQuiz(el.dataset.qgo); }
   if ((el = on('[data-dfilter]'))) { ui.dfilter = el.dataset.dfilter; return render(false); }
   if ((el = on('[data-star]'))) { toggleSaved(el.dataset.star); return renderDict(); }
   if ((el = on('[data-goverb]'))) { ui.verb = +el.dataset.goverb; ui.tab = 'verbs'; return render(); }

@@ -1,6 +1,6 @@
 /* Service worker – cache-first so the app works offline.
    Bump CACHE when you change any file. */
-const CACHE = 'deutsch-a1-v5';
+const CACHE = 'deutsch-a1-v6';
 const ASSETS = ['./', 'assets/vendor/bootstrap-icons/bootstrap-icons.min.css', 'assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2', 'assets/vendor/bootstrap.rtl.min.css', 'assets/vendor/fonts/baloo-bhaijaan-2-arabic-400-normal.woff2', 'assets/vendor/fonts/baloo-bhaijaan-2-arabic-600-normal.woff2', 'assets/vendor/fonts/baloo-bhaijaan-2-arabic-800-normal.woff2', 'assets/vendor/fonts/baloo-bhaijaan-2-latin-400-normal.woff2', 'assets/vendor/fonts/baloo-bhaijaan-2-latin-600-normal.woff2', 'assets/vendor/fonts/baloo-bhaijaan-2-latin-800-normal.woff2', 'assets/vendor/fonts/fonts.css', 'css/app.css', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon.svg', 'index.html', 'js/app.js', 'js/data.js', 'js/dict.js', 'manifest.webmanifest'];
 
 self.addEventListener('install', e => {
