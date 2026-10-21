@@ -13,20 +13,20 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
 };
 const ART = { m: ['der', 'primary'], f: ['die', 'danger'], n: ['das', 'success'] };
-const capHi = s => attr(s).replace(/[A-ZÄÖÜ]/g, m => `<b class="text-danger">${m}</b>`);
+const capHi = s => attr(s).replace(/[A-ZÄÖÜ]/g, m => `<b class="text-brand">${m}</b>`);
 const badge = t => (ART[t] ? `<span class="badge text-bg-${ART[t][1]} me-1">${ART[t][0]}</span>` : '');
 
 /* ================= state ================= */
 const TABS = [ // id, icon, short label, long label (desktop sidebar)
   ['phrases', 'chat-dots', 'عبارت‌ها', 'عبارت‌ها و کلمه‌ها'], ['numbers', '123', 'اعداد', 'اعداد'],
-  ['alphabet', 'alphabet-uppercase', 'الفبا', 'الفبا و تلفظ'], ['verbs', 'pencil-square', 'صرف', 'صرف فعل'],
+  ['alphabet', 'alphabet-uppercase', 'الفبا', 'الفبا و تلفظ'], ['verbs', 'pencil-square', 'فعل و جمله', 'فعل و ساختار جمله'],
   ['artikel', 'tags', 'آرتیکل', 'حرف تعریف (Artikel)'], ['dict', 'book-half', 'دیکشنری', 'دیکشنری و فلش‌کارت'],
   ['quiz', 'bullseye', 'آزمون', 'آزمون'],
 ];
-const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck', 'sunrise', 'question-circle'];
+const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck', 'sunrise', 'question-circle', 'translate'];
 const ui = {
   tab: 'phrases', verb: 0, slow: store.get('slow', false), hide: store.get('hide', false),
-  asub: 'letters', art: 'm', dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
+  vsub: 'conj', asub: 'letters', art: 'm', dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
 };
 
 /* ================= speech ================= */
@@ -73,50 +73,109 @@ const views = {
       <div class="col"><button class="tile" data-say="${LETTER_SAY[a[0]]}" data-slow="1">
         <b>${a[0] === 'ß' ? 'ß' : a[0] + a[0].toLowerCase()}</b><span>${a[1]} · ${a[2]}</span></button></div>`).join(''))}`,
 
-  verbs: () => {
-    const v = V[ui.verb], pv = VFA[v[0]];
+  conj: () => {
+    const v = V[ui.verb], pv = VFA[v[0]], irr = !!v[3];
     const rows = PR.map((p, i) => {
-      const f = form(v, i), cut = f.startsWith(v[1]) ? v[1].length : f.length - 1;
+      const f = form(v, i);
+      let html;
+      if (irr) {
+        const diff = !v[1] || f !== v[1] + EN[i];
+        html = `<b class="${diff ? 'text-brand' : ''}">${f}</b>${diff && v[1] && (i === 1 || i === 2) ? ' <span class="text-warning">★</span>' : ''}`;
+      } else {
+        const cut = f.startsWith(v[1]) ? v[1].length : f.length - 1;
+        html = `<span class="text-body-secondary">${f.slice(0, cut)}</span><b class="text-brand">${f.slice(cut)}</b>`;
+      }
       return `<div class="conj">
         <div class="conj-p"><span class="de" dir="ltr">${PRO_FA[i][0]}</span><span class="fa">${PRO_FA[i][1]}</span></div>
-        <div class="conj-f de" dir="ltr"><span class="text-body-secondary">${f.slice(0, cut)}</span><b class="text-danger">${f.slice(cut)}</b></div>
+        <div class="conj-f de" dir="ltr">${html}</div>
         ${sayBtn(PRO_DE[i] + ' ' + f, 'btn-warning btn-sm rounded-circle')}
         <div class="conj-m">${PRO_SHORT[i]} ${pv[i]}</div></div>`;
     }).join('');
-    const ends = PRO_FA.map((p, i) => `<tr><td class="de" dir="ltr">${p[0]}</td><td>${p[1]}</td><td dir="ltr" class="text-danger fw-bold">-${EN[i]}</td></tr>`).join('');
+    const ends = PRO_FA.map((p, i) => `<tr><td class="de" dir="ltr">${p[0]}</td><td>${p[1]}</td><td dir="ltr" class="text-brand fw-bold">-${EN[i]}</td></tr>`).join('');
+    const chip = ([x, i]) => `<button class="btn btn-sm rounded-pill ${i === ui.verb ? 'btn-brand' : 'btn-outline-secondary'}" data-verb="${i}">${x[0]}</button>`;
+    const all = V.map((x, i) => [x, i]);
+    const side = irr ? `
+        <h2 class="h6" dir="ltr">${ico('info-circle', 'text-brand')} Unregelmäßige Verben</h2>
+        <p class="mb-1" dir="ltr">Es gibt in zweiten und dritten Person singular Unterschied.</p>
+        <p class="small text-body-secondary">(du و er / es / sie) — علامت ★ یعنی همین‌جا تفاوت هست.</p>
+        ${IRR_NOTE[v[0]] ? `<p class="mb-2"><span class="badge text-bg-warning" dir="ltr">${IRR_NOTE[v[0]]}</span> <span class="small text-body-secondary">تغییر حرف در du و er / es / sie</span></p>` : ''}
+        <p class="mb-0" dir="ltr"><b>Tipp:</b> Sie müssen nur es auswendig lernen.</p>`
+      : `
+        <h2 class="h6">${ico('person-lines-fill', 'text-brand')} ضمیر شخصی و پایانه (Personalpronomen)</h2>
+        <p class="small text-body-secondary mb-2">فرمول: <b>ریشه فعل (Verbstamm) + پایانه مناسب (Endung)</b></p>
+        <table class="table table-sm align-middle mb-0"><tbody>${ends}</tbody></table>`;
     return `
-      <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${V.map((x, i) =>
-        `<button class="btn btn-sm rounded-pill ${i === ui.verb ? 'btn-danger' : 'btn-outline-secondary'}" data-verb="${i}">${x[0]}</button>`).join('')}</div>
+      <div class="row g-2 mb-3">
+        <div class="col-md-6"><div class="rule"><div class="d-flex align-items-center gap-2 mb-1"><span class="badge rounded-pill text-bg-secondary">1</span><b dir="ltr">regelmäßige Verben</b><span class="badge text-bg-success">95%</span></div>
+          <div class="small text-body-secondary">مثل <b dir="ltr">wohnen</b>: ریشه + پایانه</div></div></div>
+        <div class="col-md-6"><div class="rule"><div class="d-flex align-items-center gap-2 mb-1"><span class="badge rounded-pill text-bg-secondary">2</span><b dir="ltr">unregelmäßige Verben</b><span class="badge text-bg-warning">5%</span></div>
+          <div class="small text-body-secondary">در شخص دوم و سوم مفرد (du و er / es / sie) تفاوت وجود دارد</div></div></div>
+      </div>
+      <div class="small text-body-secondary mb-1" dir="ltr">regelmäßige Verben</div>
+      <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${all.filter(([x]) => !x[3]).map(chip).join('')}</div>
+      <div class="small text-body-secondary mb-1" dir="ltr">unregelmäßige Verben</div>
+      <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${all.filter(([x]) => x[3]).map(chip).join('')}</div>
       <div class="row g-3">
-        <div class="col-lg-5"><div class="card rounded-4 h-100"><div class="card-body">
-          <h2 class="h6">${ico('person-lines-fill', 'text-danger')} ضمیر شخصی و پایانه (Personalpronomen)</h2>
-          <p class="small text-body-secondary mb-2">فرمول: <b>ریشه فعل (Verbstamm) + پایانه مناسب (Endung)</b></p>
-          <table class="table table-sm align-middle mb-0"><tbody>${ends}</tbody></table>
-        </div></div></div>
+        <div class="col-lg-5"><div class="card rounded-4 h-100"><div class="card-body">${side}</div></div></div>
         <div class="col-lg-7"><div class="card rounded-4 h-100"><div class="card-body">
-          <p class="mb-1"><b class="de" dir="ltr">${v[0]}</b> <span class="text-body-secondary">= ${v[2]}</span></p>
+          <p class="mb-1"><b class="de" dir="ltr">${v[0]}</b> <span class="text-body-secondary">= ${v[2]}</span> ${irr ? '<span class="badge text-bg-warning">بی‌قاعده</span>' : ''}</p>
           ${rows}
           ${v[0] === 'heißen' ? '<div class="alert alert-warning small py-2 mt-2 mb-0">نکته: du heißt (نه heißst) — چون ß و s کنار هم می‌آیند، یکی حذف می‌شود.</div>' : ''}
-          <button class="btn btn-danger mt-3" data-slow="1" data-say="${attr(PR.map((p, i) => PRO_DE[i] + ' ' + form(v, i)).join(', '))}">${ico('play-fill')} همه را آهسته بخوان</button>
+          <button class="btn btn-brand mt-3" data-slow="1" data-say="${attr(PR.map((p, i) => PRO_DE[i] + ' ' + form(v, i)).join(', '))}">${ico('play-fill')} همه را آهسته بخوان</button>
         </div></div></div>
       </div>`;
+  },
+
+  verbs: () => `<div class="d-flex flex-wrap gap-2 mb-3">${[['conj', 'صرف فعل', 'pencil-square'], ['satz', 'جمله و سؤال', 'diagram-3']].map(s =>
+      `<button class="btn btn-sm rounded-pill ${ui.vsub === s[0] ? 'btn-brand' : 'btn-outline-secondary'}" data-vsub="${s[0]}">${ico(s[2])} ${s[1]}</button>`).join('')}</div>${views[ui.vsub]()}`,
+
+  satz: () => {
+    const tok = ([t, r, p]) => `<span class="tk ${r ? 'tk-' + r : ''}"><b dir="ltr">${attr(t)}</b>${p ? `<i>${p}</i>` : ''}</span>`;
+    const line = (toks, fa) => `<div class="d-flex align-items-center gap-2 mb-2"><div class="flex-grow-1"><div dir="ltr">${toks.map(tok).join('')}</div>
+      ${fa ? `<div class="fa text-body-secondary px-1">${attr(fa)}</div>` : ''}</div>${sayBtn(toks.map(t => t[0]).join(' '), 'btn-warning btn-sm rounded-circle')}</div>`;
+    const pair = e => `<div class="mb-3 pb-2 border-bottom">${line(e.q, e.faQ)}${line(e.a, e.faA)}</div>`;
+    const formula = parts => `<div dir="ltr" class="mb-3">${parts.map(tok).join('<span class="mx-1">+</span>')}<span class="tk">.....?</span></div>`;
+    const head = (n, t) => `<div class="d-flex align-items-center gap-2 mb-2"><span class="badge rounded-pill text-bg-secondary">${n}</span><b class="fs-6" dir="ltr">${t}</b></div>`;
+    return `
+      <div class="card rounded-4 mb-3"><div class="card-body">
+        <h2 class="h5 mb-1" dir="ltr">Wie kann man einen Satz oder Frage bilden?</h2>
+        <p class="small text-body-secondary mb-0">چطور می‌شود یک جمله یا سؤال ساخت؟</p></div></div>
+      <div class="card rounded-4 mb-3"><div class="card-body">
+        <p class="mb-1" dir="ltr"><b>Tipp:</b> Im Deutsch steht Verb immer an Position <span class="tk tk-v">2</span></p>
+        <p class="small text-body-secondary">نکته: در آلمانی فعل همیشه در جایگاه ۲ قرار دارد.</p>
+        <div class="small text-body-secondary mb-2" dir="ltr">z.B.</div>${SATZ.stmt.map(e => line(e.q, e.fa)).join('')}</div></div>
+      ${section('question-circle', 'Fragen', '')}
+      <div class="card rounded-4 mb-3"><div class="card-body">${head(1, 'W-Frage')}
+        ${formula([['W-Frage', 'w', 1], ['Verb', 'v', 2], ['Subjekt', 's', 3]])}
+        <div class="small text-body-secondary mb-2" dir="ltr">z.B.</div>${SATZ.w.map(pair).join('')}</div></div>
+      <div class="card rounded-4 mb-3"><div class="card-body">${head(2, 'Ja oder Nein-Frage')}
+        ${formula([['Verb', 'v', 1], ['Subjekt', 's', 2]])}
+        ${SATZ.yn.map(pair).join('')}</div></div>
+      ${section('people', 'formell / informell', '')}
+      <div class="card rounded-4 mb-3"><div class="card-body">${SATZ.pairs.map(p => `
+        <div class="mb-3 pb-2 border-bottom"><div class="row g-2">
+          <div class="col-md-6"><span class="badge text-bg-secondary mb-1">formell</span>${line(p.formal)}</div>
+          <div class="col-md-6"><span class="badge text-bg-secondary mb-1">informell</span>${line(p.informal)}</div></div>
+          <div class="fa text-body-secondary mb-2">${p.fa}</div>
+          ${p.a.map(x => `<div class="d-flex align-items-center gap-2 mb-1"><div class="flex-grow-1"><div class="de" dir="ltr" style="font-size:1rem">${attr(x[0])}</div>
+            <div class="fa text-body-secondary">${attr(x[1])}</div></div>${sayBtn(x[0], 'btn-warning btn-sm rounded-circle')}</div>`).join('')}</div>`).join('')}</div></div>`;
   },
 
   soundsPage: () => `
     <div class="alert alert-secondary small rounded-4">روی کلمه‌ها بزن تا تلفظ را بشنوی.</div>
     ${grid('row-cols-1 row-cols-lg-2', S.map(s => `
       <div class="col"><div class="card rounded-4 h-100"><div class="card-body">
-        <div class="d-flex align-items-center gap-3 mb-2"><span class="display-6 fw-bold text-danger" dir="ltr">${s[0]}</span><span>${s[1]}</span></div>
+        <div class="d-flex align-items-center gap-3 mb-2"><span class="display-6 fw-bold text-brand" dir="ltr">${s[0]}</span><span>${s[1]}</span></div>
         <div class="d-flex flex-wrap gap-2" dir="ltr">${s[2].split(', ').map(w =>
           `<button class="btn btn-sm btn-outline-secondary rounded-pill" data-say="${w}" data-slow="1">${ico('volume-up-fill')} ${w}</button>`).join('')}</div>
       </div></div></div>`).join(''))}`,
 
   alphabet: () => `<div class="d-flex flex-wrap gap-2 mb-3">${[['letters', 'حروف', 'alphabet-uppercase'], ['soundsPage', 'ترکیب حروف و تلفظ', 'mic-fill'], ['caps', 'حروف بزرگ', 'type']].map(s =>
-      `<button class="btn btn-sm rounded-pill ${ui.asub === s[0] ? 'btn-danger' : 'btn-outline-secondary'}" data-asub="${s[0]}">${ico(s[2])} ${s[1]}</button>`).join('')}</div>${views[ui.asub]()}`,
+      `<button class="btn btn-sm rounded-pill ${ui.asub === s[0] ? 'btn-brand' : 'btn-outline-secondary'}" data-asub="${s[0]}">${ico(s[2])} ${s[1]}</button>`).join('')}</div>${views[ui.asub]()}`,
 
   caps: () => `
     <div class="card rounded-4 mb-3"><div class="card-body">
-      <h2 class="h6 mb-1" dir="ltr">${ico('type', 'text-danger')} Wann müssen wir den ersten Buchstaben großschreiben?</h2>
+      <h2 class="h6 mb-1" dir="ltr">${ico('type', 'text-brand')} Wann müssen wir den ersten Buchstaben großschreiben?</h2>
       <p class="small text-body-secondary mb-0">کی باید حرف اول را بزرگ بنویسیم؟ در ۳ حالت (Im 3 Situationen):</p></div></div>
     ${grid('row-cols-1 row-cols-lg-3', CAPS.map((c, i) => `
       <div class="col"><div class="card rounded-4 h-100"><div class="card-body">
@@ -125,7 +184,7 @@ const views = {
         ${c.ex.map(x => `<div class="d-flex align-items-center gap-2 mb-2"><div class="de flex-grow-1" dir="ltr">${capHi(x)}</div>${sayBtn(x, 'btn-warning btn-sm rounded-circle')}</div>`).join('')}
       </div></div></div>`).join(''))}
     <div class="alert alert-secondary small rounded-4 mt-3">sagen = گفتن · buchstabieren = هجی کردن (حرف‌به‌حرف گفتن). مثلاً: «Wie schreibt man das؟» ◂ «Buchstabieren Sie bitte!»</div>
-    <button class="btn btn-danger rounded-pill" data-qgo="caps">${ico('bullseye')} تمرین حروف بزرگ</button>`,
+    <button class="btn btn-brand rounded-pill" data-qgo="caps">${ico('bullseye')} تمرین حروف بزرگ</button>`,
 
   artikel: () => {
     const GN = { m: ['مذکر', 'maskulin', 'ein', 'ein Tisch'], n: ['خنثی', 'neutrum', 'ein', 'ein Fenster'], f: ['مؤنث', 'feminin', 'eine', 'eine Tür'] };
@@ -138,7 +197,7 @@ const views = {
       <div class="card rounded-4 mb-3"><div class="card-body d-flex align-items-start gap-2"><div class="flex-grow-1">
         <h2 class="h6 mb-1" dir="ltr">Alle Nomen haben Artikel im Deutsch.</h2>
         <p class="small text-body-secondary mb-2">همه‌ی اسم‌ها در آلمانی یک حرف تعریف (Artikel) دارند:
-          <b class="text-primary">der</b> · <b class="text-danger">die</b> · <b class="text-success">das</b></p>
+          <b class="text-primary">der</b> · <b class="text-brand">die</b> · <b class="text-success">das</b></p>
         <p class="mb-0" dir="ltr"><b>Tipp:</b> Sie müssen nur auswendig lernen.</p>
         <p class="small text-body-secondary mb-0">نکته: فقط باید حفظ کنی؛ هر اسم را همیشه همراه artikelش یاد بگیر.</p></div>
         ${sayBtn('Alle Nomen haben Artikel im Deutsch. Tipp: Sie müssen nur auswendig lernen.')}</div></div>
@@ -158,7 +217,7 @@ const views = {
         `<button class="btn btn-sm rounded-pill ${ui.art === g ? 'btn-' + ART[g][1] : 'btn-outline-' + ART[g][1]}" data-artf="${g}">${ART[g][0]}</button>`).join('')}</div>
       <div class="small text-body-secondary mb-2">${nouns.length} اسم</div>
       ${grid('row-cols-1 row-cols-lg-2', nouns.map(e => dictRow(e, saved.has(e.key))).join(''))}
-      <button class="btn btn-danger rounded-pill mt-3" data-qgo="artikel">${ico('bullseye')} تمرین der / die / das</button>`;
+      <button class="btn btn-brand rounded-pill mt-3" data-qgo="artikel">${ico('bullseye')} تمرین der / die / das</button>`;
   },
 
   dict: () => `
@@ -166,7 +225,7 @@ const views = {
       <span class="input-group-text border-0">${ico('search')}</span>
       <input id="dq" type="search" class="form-control border-0" placeholder="جستجو: آلمانی یا فارسی…" autocomplete="off" autocapitalize="off" value="${attr(ui.dq)}"></div>`}
     <div class="d-flex flex-wrap gap-2 mb-3">${[['all', 'همه', 'book-half'], ['cards', 'فلش‌کارت', 'stack'], ['saved', 'ذخیره‌شده', 'star-fill'], ['add', 'کلمه‌ی من', 'plus-circle']].map(f =>
-      `<button class="btn btn-sm rounded-pill ${ui.dfilter === f[0] ? 'btn-danger' : 'btn-outline-secondary'}" data-dfilter="${f[0]}">${ico(f[2])} ${f[1]}</button>`).join('')}</div>
+      `<button class="btn btn-sm rounded-pill ${ui.dfilter === f[0] ? 'btn-brand' : 'btn-outline-secondary'}" data-dfilter="${f[0]}">${ico(f[2])} ${f[1]}</button>`).join('')}</div>
     <div id="dres"></div>`,
 
   quiz: () => '<div id="qroot"></div>',
@@ -207,7 +266,7 @@ function dictRow(e, saved) {
         ${TYPE_LABEL[e.t] ? `<span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis">${TYPE_LABEL[e.t]}</span>` : ''}</div>
     </div>
     ${e.verb !== undefined ? `<button class="btn btn-sm btn-outline-secondary rounded-pill" data-goverb="${e.verb}">صرف</button>` : ''}
-    ${e.t === 'u' ? `<button class="btn btn-link text-danger p-1" data-delword="${attr(e.key)}" aria-label="حذف">${ico('trash3')}</button>` : ''}
+    ${e.t === 'u' ? `<button class="btn btn-link text-brand p-1" data-delword="${attr(e.key)}" aria-label="حذف">${ico('trash3')}</button>` : ''}
     <button class="btn btn-link text-warning fs-5 p-1" data-star="${attr(e.key)}" aria-label="ذخیره">${ico(saved ? 'star-fill' : 'star')}</button>
     ${sayBtn(entryDisp(e))}
   </div></div>`;
@@ -228,7 +287,7 @@ function renderDict() {
         <input id="nw-de" class="form-control mb-2" dir="ltr" lang="de" autocapitalize="off" placeholder="z.B. der Hund">
         <label class="form-label small">معنی فارسی</label>
         <input id="nw-fa" class="form-control mb-3" placeholder="مثلاً: سگ">
-        <button class="btn btn-danger w-100" data-addword>${ico('plus-lg')} افزودن به دیکشنری</button>
+        <button class="btn btn-brand w-100" data-addword>${ico('plus-lg')} افزودن به دیکشنری</button>
       </div></div>
       ${mine.length ? section('person-badge', `کلمه‌های من (${mine.length})`, rows(mine)) : ''}`;
     return;
@@ -293,7 +352,7 @@ const cardControls = () => ui.fflip
   ? `<div class="d-flex gap-2 mt-3">
        <button class="btn btn-outline-danger flex-fill py-3" data-fans="0">${ico('x-lg')} هنوز نه <kbd class="d-none d-lg-inline">1</kbd></button>
        <button class="btn btn-success flex-fill py-3" data-fans="1">${ico('check-lg')} بلدم <kbd class="d-none d-lg-inline">2</kbd></button></div>`
-  : `<button class="btn btn-danger w-100 mt-3 py-3" data-flip>${ico('arrow-repeat')} نمایش جواب <kbd class="d-none d-lg-inline">Space</kbd></button>`;
+  : `<button class="btn btn-brand w-100 mt-3 py-3" data-flip>${ico('arrow-repeat')} نمایش جواب <kbd class="d-none d-lg-inline">Space</kbd></button>`;
 
 function renderCards() {
   const box = $('#dres');
@@ -328,7 +387,7 @@ function renderCards() {
       `<button class="btn btn-sm rounded-pill ${ui.fdeck === d[0] ? 'btn-secondary' : 'btn-outline-secondary'}" data-fdeck="${d[0]}">${d[1]}</button>`).join('')}</div>
     <div class="d-flex justify-content-between align-items-center mb-2">
       <button class="btn btn-sm btn-outline-secondary rounded-pill" data-fdir>${ico('arrow-left-right')} ${ui.fdir === 'de' ? 'آلمانی ← فارسی' : 'فارسی ← آلمانی'}</button>
-      <button class="btn btn-sm btn-link ${ui.fconfirm ? 'text-danger' : 'text-body-secondary'}" data-freset>${ico('trash3')} ${ui.fconfirm ? 'مطمئنی؟ دوباره بزن' : 'پاک‌کردن پیشرفت'}</button></div>
+      <button class="btn btn-sm btn-link ${ui.fconfirm ? 'text-brand' : 'text-body-secondary'}" data-freset>${ico('trash3')} ${ui.fconfirm ? 'مطمئنی؟ دوباره بزن' : 'پاک‌کردن پیشرفت'}</button></div>
     <div class="d-flex flex-wrap gap-1 small mb-2">
       <span class="badge text-bg-secondary">جدید ${st.fresh}</span><span class="badge text-bg-warning">در حال یادگیری ${st.learn}</span>
       <span class="badge text-bg-success">بلد ${st.known}</span><span class="badge text-bg-danger me-auto">نوبت مرور ${st.due}</span></div>
@@ -393,7 +452,7 @@ function make(mode) {
     case 'artikel': { const c = pick(E.filter(e => ART[e.t]), 1)[0];
       return mc({ mode, q: c.de, say: entryDisp(c), hint: c.fa, after: entryDisp(c), ans: ART[c.t][0], fixed: ['der', 'die', 'das'], wrong: [] }); }
     case 'verb': { const v = pick(V, 1)[0], i = Math.floor(Math.random() * 6), ans = form(v, i);
-      const forms = [...new Set(EN.map(e => v[1] + e))].filter(x => x !== ans);
+      const forms = [...new Set(v[3] ? [...v[3], v[1] ? v[1] + EN[i] : ''] : EN.map(e => v[1] + e))].filter(x => x && x !== ans);
       return mc({ mode, q: `${PRO_DE[i]} ___ (${v[0]})`, hint: `${PRO_SHORT[i]} ${VFA[v[0]][i]}`, after: `${PRO_DE[i]} ${ans}`, ans, wrong: pick(forms, 3) }); }
     case 'verbfa': { const v = pick(V, 1)[0], i = Math.floor(Math.random() * 6);
       const ans = `${PRO_DE[i]} ${form(v, i)}`;
@@ -461,15 +520,15 @@ function renderQuiz() {
 
 function renderQ() {
   const q = quiz.cur, n = quiz.list.length;
-  const prompt = `<div class="qtitle" dir="${q.qRtl ? 'rtl' : 'ltr'}" lang="${q.qRtl ? 'fa' : 'de'}">${q.q ?? ico('volume-up-fill', 'text-danger')}</div>
+  const prompt = `<div class="qtitle" dir="${q.qRtl ? 'rtl' : 'ltr'}" lang="${q.qRtl ? 'fa' : 'de'}">${q.q ?? ico('volume-up-fill', 'text-brand')}</div>
     ${q.hint ? `<p class="text-center text-body-secondary small">${q.kind === 'type' ? 'معنی: ' : ''}${attr(q.hint)}</p>` : ''}
-    ${q.say ? `<div class="text-center mb-3"><button class="btn btn-danger rounded-pill" data-say="${attr(q.say)}">${ico('volume-up-fill')} پخش دوباره</button>
+    ${q.say ? `<div class="text-center mb-3"><button class="btn btn-brand rounded-pill" data-say="${attr(q.say)}">${ico('volume-up-fill')} پخش دوباره</button>
       <button class="btn btn-outline-secondary rounded-pill" data-say="${attr(q.say)}" data-slow="1">${ico('hourglass-split')} آهسته</button></div>` : ''}`;
   let body;
   if (q.kind === 'type') {
     body = `<input id="sp-in" class="form-control form-control-lg text-center" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="…">
       <div class="d-flex justify-content-center gap-2 my-2">${['ä', 'ö', 'ü', 'ß'].map(c => `<button class="btn btn-outline-secondary" data-ins="${c}">${c}</button>`).join('')}</div>
-      <button class="btn btn-danger w-100 py-2" data-check>${ico('check-lg')} بررسی</button>`;
+      <button class="btn btn-brand w-100 py-2" data-check>${ico('check-lg')} بررسی</button>`;
   } else if (q.kind === 'order') {
     body = `<div id="order"></div>`;
   } else {
@@ -480,7 +539,7 @@ function renderQ() {
     <div class="d-flex align-items-center gap-2 mb-3">
       <button class="btn btn-sm btn-outline-secondary rounded-pill" data-qhome aria-label="خروج">${ico('x-lg')}</button>
       <div class="progress flex-grow-1" style="height:8px"><div class="progress-bar bg-danger" style="width:${quiz.i / n * 100}%"></div></div>
-      <span class="small text-body-secondary">${quiz.i + 1}/${n}</span><span class="small">${ico('fire', 'text-danger')} ${quiz.streak}</span></div>
+      <span class="small text-body-secondary">${quiz.i + 1}/${n}</span><span class="small">${ico('fire', 'text-brand')} ${quiz.streak}</span></div>
     <div class="card rounded-4"><div class="card-body p-4">
       <div class="small text-body-secondary text-center">${ico(MODE[q.mode].icon)} ${MODE[q.mode].title}</div>
       ${prompt}${body}<div id="fb"></div></div></div></div>`;
@@ -496,7 +555,7 @@ function renderOrder() {
     <div class="order-box" dir="ltr">${quiz.built.map((i, p) => `<button class="chip-w" data-obuilt="${p}" ${q.done ? 'disabled' : ''}>${attr(q.tokens[i])}</button>`).join('')}</div>
     <div class="text-center mb-3" dir="ltr">${free.map(([t, i]) => `<button class="chip-w" data-otok="${i}" ${q.done ? 'disabled' : ''}>${attr(t)}</button>`).join('')}</div>
     <div class="d-flex gap-2"><button class="btn btn-outline-secondary" data-oclear ${q.done ? 'disabled' : ''}>${ico('arrow-counterclockwise')}</button>
-      <button class="btn btn-danger flex-grow-1 py-2" data-check ${q.done ? 'disabled' : ''}>${ico('check-lg')} بررسی</button></div>`;
+      <button class="btn btn-brand flex-grow-1 py-2" data-check ${q.done ? 'disabled' : ''}>${ico('check-lg')} بررسی</button></div>`;
 }
 
 const foldDe = s => normDe(s).replace(/\s+/g, ' ').trim();
@@ -516,7 +575,7 @@ function finishQ(ok, btn) {
   const last = quiz.i === quiz.list.length - 1;
   $('#fb').innerHTML = `<div class="alert alert-${ok ? 'success' : 'danger'} mt-3 py-2 text-center">${
     ok ? ico('emoji-smile-fill') + ' آفرین!' : `جواب درست: <b dir="ltr" class="d-inline-block">${attr(q.kind === 'mc' && q.mode === 'artikel' ? entryDispFromQ(q) : q.ans)}</b>`}</div>
-    <button class="btn btn-danger w-100 py-2" data-qnext>${last ? 'نمایش نتیجه' : 'سؤال بعدی'} ${ico('arrow-left')} <kbd class="d-none d-lg-inline">Enter</kbd></button>`;
+    <button class="btn btn-brand w-100 py-2" data-qnext>${last ? 'نمایش نتیجه' : 'سؤال بعدی'} ${ico('arrow-left')} <kbd class="d-none d-lg-inline">Enter</kbd></button>`;
   speak(q.after || q.say || q.ans);
 }
 const entryDispFromQ = q => q.after || q.ans;
@@ -550,7 +609,7 @@ function renderResult() {
   const msg = pct >= 90 ? 'عالی بود!' : pct >= 70 ? 'خیلی خوب!' : pct >= 40 ? 'بد نیست، ادامه بده' : 'دوباره تلاش کن، می‌شود!';
   $('#qroot').innerHTML = `<div class="narrow"><div class="card rounded-4 text-center"><div class="card-body p-4">
     <div class="fs-1 text-warning mb-1">${[0, 1, 2].map(i => ico(i < stars ? 'star-fill' : 'star')).join('')}</div>
-    <div class="display-4 fw-bold text-danger">${pct}٪</div>
+    <div class="display-4 fw-bold text-brand">${pct}٪</div>
     <p class="fw-bold mb-1">${msg}</p>
     <p class="text-body-secondary small">${quiz.score} از ${n} درست · بیشترین پشت‌سرهم ${quiz.bestStreak}</p>
     ${quiz.wrong.length ? `<div class="text-start text-body mt-3"><h2 class="h6 text-center">${ico('x-circle-fill', 'text-danger')} اشتباه‌ها</h2>
@@ -558,7 +617,7 @@ function renderResult() {
         <span dir="${q.qRtl ? 'rtl' : 'ltr'}">${q.q ? attr(q.q) : ico('volume-up-fill')}</span><b dir="ltr">${attr(q.ans)}</b></li>`).join('')}</ul></div>` : ''}
     <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
       ${quiz.wrong.length ? `<button class="btn btn-outline-danger rounded-pill" data-qretry>${ico('arrow-clockwise')} تکرار اشتباه‌ها</button>` : ''}
-      <button class="btn btn-danger rounded-pill" data-qagain>${ico('lightning-charge-fill')} دور جدید</button>
+      <button class="btn btn-brand rounded-pill" data-qagain>${ico('lightning-charge-fill')} دور جدید</button>
       <button class="btn btn-outline-secondary rounded-pill" data-qhome>${ico('house-door')} منوی آزمون</button></div>
   </div></div></div>`;
 }
@@ -566,10 +625,20 @@ function renderResult() {
 /* ================= render + tabs ================= */
 function renderTabs() {
   $('#tabbar').innerHTML = `
-    <div class="side-brand"><b>${ico('translate', 'text-danger')} Deutsch A1</b><small>تمرین کلاس آلمانی</small></div>
+    <div class="side-brand"><b>${ico('translate', 'text-brand')} Deutsch A1</b><small>تمرین کلاس آلمانی</small></div>
     <ul class="nav nav-justified px-2">${TABS.map(t => `
       <li class="nav-item"><button class="nav-link ${t[0] === ui.tab ? 'active' : ''}" data-tab="${t[0]}">${ico(t[1])}<span class="short">${t[2]}</span><span class="long">${t[3]}</span></button></li>`).join('')}</ul>
     <div class="side-foot"><a class="link-secondary" href="https://github.com/m1chtv" target="_blank" rel="noopener">${ico('github')} github.com/m1chtv</a></div>`;
+}
+function updateHero() {
+  const box = $('#hero-stats');
+  if (!box) return;
+  const E = dictEntries().filter(e => e.t !== 'z'), L = store.get('leitner', {}), now = Date.now();
+  const due = E.filter(e => !L[e.key] || L[e.key].due <= now).length;
+  const qb = Object.values(store.get('qbest', {}));
+  box.innerHTML = `<span class="stat">${ico('book-half')} ${E.length} کلمه و عبارت</span>
+    <span class="stat">${ico('stack')} ${due} کارت آماده‌ی مرور</span>
+    ${qb.length ? `<span class="stat">${ico('trophy-fill')} بهترین آزمون ${Math.max(...qb)}٪</span>` : ''}`;
 }
 function render(scroll = true) {
   const view = $('#view');
@@ -578,6 +647,7 @@ function render(scroll = true) {
   if (ui.tab === 'quiz') renderQuiz();
   if (ui.tab === 'dict') renderDict();
   renderTabs();
+  updateHero();
   if (scroll) window.scrollTo(0, 0);
 }
 
@@ -588,6 +658,7 @@ document.addEventListener('click', e => {
   if ((el = on('[data-say]'))) return speak(el.dataset.say, el.dataset.slow === '1');
   if ((el = on('[data-tab]'))) { ui.tab = el.dataset.tab; return render(); }
   if ((el = on('[data-verb]'))) { ui.verb = +el.dataset.verb; return render(false); }
+  if ((el = on('[data-vsub]'))) { ui.vsub = el.dataset.vsub; return render(false); }
   if ((el = on('[data-asub]'))) { ui.asub = el.dataset.asub; return render(false); }
   if ((el = on('[data-artf]'))) { ui.art = el.dataset.artf; return render(false); }
   if ((el = on('[data-qgo]'))) { ui.tab = 'quiz'; quiz.stage = 'home'; render(); return startQuiz(el.dataset.qgo); }
