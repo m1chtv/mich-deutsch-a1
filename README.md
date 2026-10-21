@@ -9,7 +9,6 @@
 ![Bootstrap Icons](https://img.shields.io/badge/Bootstrap_Icons-1.13-7952B3?logo=bootstrap&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-offline-5A0FC8?logo=pwa&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/Vanilla-JavaScript-F7DF1E?logo=javascript&logoColor=black)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 [**🔗 دمو (GitHub Pages)**](https://m1chtv.github.io/deutsch-a1/) ·
 [گزارش مشکل](https://github.com/m1chtv/deutsch-a1/issues) ·
