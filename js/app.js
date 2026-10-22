@@ -26,8 +26,16 @@ const TABS = [ // id, icon, short label, long label (desktop sidebar)
 const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck', 'sunrise', 'question-circle', 'translate'];
 const ui = {
   tab: 'phrases', verb: 0, slow: store.get('slow', false), hide: store.get('hide', false),
-  vsub: 'conj', asub: 'letters', art: 'm', dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
+  psub: 'sent', vsub: 'conj', asub: 'letters', art: 'm', dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
 };
+
+const seg = (items, cur, name) => `<div class="seg">${items.map(([id, label, icon]) =>
+  `<button class="${id === cur ? 'on' : ''}" data-${name}="${id}">${ico(icon)} ${label}</button>`).join('')}</div>`;
+const PAGE_DESC = {
+  phrases: 'جمله‌های کلاس و کلمه‌های تابلو، به‌تفکیک موضوع', numbers: 'اعداد ۰ تا ۱۰۰ با تلفظ', alphabet: 'حروف، تلفظ ترکیب‌ها و حروف بزرگ',
+  verbs: 'صرف فعل‌ها و ساختار جمله و سؤال', artikel: 'der / die / das و نشانه‌هایی برای یادگیری', dict: 'جستجو، فلش‌کارت و کلمه‌های شخصی', quiz: '۱۴ حالت تمرین، هر دور ۱۰ سؤال',
+};
+const pageHead = id => { const t = TABS.find(x => x[0] === id); return `<div class="page-head"><span class="pi">${ico(t[1])}</span><div><h1>${t[3]}</h1><p>${PAGE_DESC[id]}</p></div></div>`; };
 
 /* ================= speech ================= */
 function speak(text, slow = false) {
@@ -56,11 +64,19 @@ const entryCard = (de, fa, t = '') => `
 const section = (icon, title, body) => `<h2 class="section-title">${ico(icon)} ${title}</h2>${body}`;
 
 const views = {
-  phrases: () =>
-    P.map((g, i) => section(GROUP_ICONS[i] || 'dot', g[0].replace(/^\S+\s/, ''),
-      grid('row-cols-1 row-cols-lg-2', g[1].map(x => entryCard(x[0], x[1])).join('')))).join('')
-    + `<div class="divider">${ico('journal-text')} کلمه‌های تابلو (تک‌تک)</div>`
-    + BOARD.map(g => section(g[1], g[0], grid('row-cols-1 row-cols-lg-2', g[2].map(([t, de, fa]) => entryCard(de, fa, t)).join('')))).join(''),
+  phrases: () => {
+    const groups = ui.psub === 'sent'
+      ? P.map((g, i) => ({ icon: GROUP_ICONS[i] || 'dot', title: g[0].replace(/^\S+\s/, ''), items: g[1].map(x => entryCard(x[0], x[1])) }))
+      : BOARD.map(g => ({ icon: g[1], title: g[0], items: g[2].map(([t, de, fa]) => entryCard(de, fa, t)) }));
+    return `${seg([['sent', 'جمله‌ها و عبارت‌ها', 'chat-dots'], ['words', 'کلمه‌های تابلو', 'journal-text']], ui.psub, 'psub')}
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <span class="small text-body-secondary">${groups.length} موضوع · ${groups.reduce((n, g) => n + g.items.length, 0)} مورد</span>
+        <span class="d-flex gap-2"><button class="btn btn-sm btn-outline-secondary" data-expand="1">${ico('arrows-expand')} باز کردن همه</button>
+          <button class="btn btn-sm btn-outline-secondary" data-expand="0">${ico('arrows-collapse')} بستن همه</button></span></div>
+      ${groups.map((g, i) => `<details class="grp" ${i === 0 ? 'open' : ''}>
+        <summary><span class="grp-ico">${ico(g.icon)}</span><span class="grp-t">${g.title}</span><span class="badge rounded-pill text-bg-secondary">${g.items.length}</span>${ico('chevron-down', 'grp-chev')}</summary>
+        <div class="grp-body">${grid('row-cols-1 row-cols-lg-2', g.items.join(''))}</div></details>`).join('')}`;
+  },
 
   numbers: () => `
     <div class="alert alert-secondary small rounded-4">اعداد ۰ تا ۱۰۰. بالای ۲۰: <b>واحد + und + دهگان</b> (21 = einundzwanzig، 35 = fünfunddreißig)</div>
@@ -126,8 +142,7 @@ const views = {
       </div>`;
   },
 
-  verbs: () => `<div class="d-flex flex-wrap gap-2 mb-3">${[['conj', 'صرف فعل', 'pencil-square'], ['satz', 'جمله و سؤال', 'diagram-3']].map(s =>
-      `<button class="btn btn-sm rounded-pill ${ui.vsub === s[0] ? 'btn-brand' : 'btn-outline-secondary'}" data-vsub="${s[0]}">${ico(s[2])} ${s[1]}</button>`).join('')}</div>${views[ui.vsub]()}`,
+  verbs: () => `${seg([['conj', 'صرف فعل', 'pencil-square'], ['satz', 'جمله و سؤال', 'diagram-3']], ui.vsub, 'vsub')}${views[ui.vsub]()}`,
 
   satz: () => {
     const tok = ([t, r, p]) => `<span class="tk ${r ? 'tk-' + r : ''}"><b dir="ltr">${attr(t)}</b>${p ? `<i>${p}</i>` : ''}</span>`;
@@ -170,8 +185,7 @@ const views = {
           `<button class="btn btn-sm btn-outline-secondary rounded-pill" data-say="${w}" data-slow="1">${ico('volume-up-fill')} ${w}</button>`).join('')}</div>
       </div></div></div>`).join(''))}`,
 
-  alphabet: () => `<div class="d-flex flex-wrap gap-2 mb-3">${[['letters', 'حروف', 'alphabet-uppercase'], ['soundsPage', 'ترکیب حروف و تلفظ', 'mic-fill'], ['caps', 'حروف بزرگ', 'type']].map(s =>
-      `<button class="btn btn-sm rounded-pill ${ui.asub === s[0] ? 'btn-brand' : 'btn-outline-secondary'}" data-asub="${s[0]}">${ico(s[2])} ${s[1]}</button>`).join('')}</div>${views[ui.asub]()}`,
+  alphabet: () => `${seg([['letters', 'حروف', 'alphabet-uppercase'], ['soundsPage', 'ترکیب حروف و تلفظ', 'mic-fill'], ['caps', 'حروف بزرگ', 'type']], ui.asub, 'asub')}${views[ui.asub]()}`,
 
   caps: () => `
     <div class="card rounded-4 mb-3"><div class="card-body">
@@ -224,8 +238,7 @@ const views = {
     ${['add', 'cards'].includes(ui.dfilter) ? '' : `<div class="input-group mb-2 shadow-sm rounded-4 overflow-hidden">
       <span class="input-group-text border-0">${ico('search')}</span>
       <input id="dq" type="search" class="form-control border-0" placeholder="جستجو: آلمانی یا فارسی…" autocomplete="off" autocapitalize="off" value="${attr(ui.dq)}"></div>`}
-    <div class="d-flex flex-wrap gap-2 mb-3">${[['all', 'همه', 'book-half'], ['cards', 'فلش‌کارت', 'stack'], ['saved', 'ذخیره‌شده', 'star-fill'], ['add', 'کلمه‌ی من', 'plus-circle']].map(f =>
-      `<button class="btn btn-sm rounded-pill ${ui.dfilter === f[0] ? 'btn-brand' : 'btn-outline-secondary'}" data-dfilter="${f[0]}">${ico(f[2])} ${f[1]}</button>`).join('')}</div>
+    ${seg([['all', 'همه', 'book-half'], ['cards', 'فلش‌کارت', 'stack'], ['saved', 'ذخیره‌شده', 'star-fill'], ['add', 'کلمه‌ی من', 'plus-circle']], ui.dfilter, 'dfilter')}
     <div id="dres"></div>`,
 
   quiz: () => '<div id="qroot"></div>',
@@ -642,7 +655,7 @@ function updateHero() {
 }
 function render(scroll = true) {
   const view = $('#view');
-  view.innerHTML = views[ui.tab]();
+  view.innerHTML = pageHead(ui.tab) + views[ui.tab]();
   view.classList.remove('fade-in'); void view.offsetWidth; view.classList.add('fade-in');
   if (ui.tab === 'quiz') renderQuiz();
   if (ui.tab === 'dict') renderDict();
@@ -658,6 +671,8 @@ document.addEventListener('click', e => {
   if ((el = on('[data-say]'))) return speak(el.dataset.say, el.dataset.slow === '1');
   if ((el = on('[data-tab]'))) { ui.tab = el.dataset.tab; return render(); }
   if ((el = on('[data-verb]'))) { ui.verb = +el.dataset.verb; return render(false); }
+  if ((el = on('[data-psub]'))) { ui.psub = el.dataset.psub; return render(false); }
+  if ((el = on('[data-expand]'))) { document.querySelectorAll('.grp').forEach(d => { d.open = el.dataset.expand === '1'; }); return; }
   if ((el = on('[data-vsub]'))) { ui.vsub = el.dataset.vsub; return render(false); }
   if ((el = on('[data-asub]'))) { ui.asub = el.dataset.asub; return render(false); }
   if ((el = on('[data-artf]'))) { ui.art = el.dataset.artf; return render(false); }
