@@ -1,12 +1,12 @@
-/* Deutsch A1 - class notes data | github.com/m1chtv
+/* Deutsch A1 - class notes data
    Each phrase: [German, Persian]. Add new items here. */
 const P=[
 ["📋 معرفی و احوال‌پرسی",[
 ["Guten Tag","روز بخیر (رسمی)"],["Hallo","سلام (غیررسمی)"],
-["Wie heißen Sie?","اسم شما چیست؟ (رسمی)"],["Ich heiße Ali Ghasemi.","اسم من علی قاسمی است"],
-["Wie heißt du?","اسمت چیه؟ (غیررسمی)"],["Ich bin Ali Ghasemi.","من علی قاسمی هستم"],
-["Mein Name ist Ali Ghasemi.","نام من علی قاسمی است"],["Mein Vorname ist Ali.","نام کوچک من علی است"],
-["Mein Nachname ist Ghasemi.","نام خانوادگی من قاسمی است"],["Danke","ممنون"],["Bitte","خواهش می‌کنم / لطفاً"]]],
+["Wie heißen Sie?","اسم شما چیست؟ (رسمی)"],["Ich heiße Ali Ahmadi.","اسم من علی احمدی است"],
+["Wie heißt du?","اسمت چیه؟ (غیررسمی)"],["Ich bin Ali Ahmadi.","من علی احمدی هستم"],
+["Mein Name ist Ali Ahmadi.","نام من علی احمدی است"],["Mein Vorname ist Ali.","نام کوچک من علی است"],
+["Mein Nachname ist Ahmadi.","نام خانوادگی من احمدی است"],["Danke","ممنون"],["Bitte","خواهش می‌کنم / لطفاً"]]],
 ["🏫 عبارت‌های کلاس",[
 ["Darf ich rausgehen?","اجازه هست بیرون بروم؟"],["Darf ich reinkommen?","اجازه هست بیایم تو؟"],
 ["Darf ich putzen?","اجازه هست (تخته را) پاک کنم؟"],["Sie können fotografieren.","می‌توانید عکس بگیرید"],
@@ -17,10 +17,14 @@ const P=[
 ["Frage ≠ Antwort","سؤال ≠ جواب"],["abwesend ≠ anwesend","غایب ≠ حاضر"],["hier ≠ dort","اینجا ≠ آنجا"],["Frau ≠ Herr","خانم ≠ آقا"],["falsch ≠ richtig","غلط ≠ درست"]]],["🙋 اجازه گرفتن",[["Darf ich Wasser trinken?","اجازه هست آب بخورم؟"],["Darf ich eine Frage stellen?","اجازه هست سؤال بپرسم؟"],["Darf ich bitte rausgehen?","لطفاً اجازه هست بیرون بروم؟"],["Ja, bitte.","بله، بفرمایید."],["Nein, leider nicht.","نه، متأسفانه نه."],["Entschuldigung!","ببخشید!"],["Darf ich fragen?","اجازه هست بپرسم؟"],["Darf ich etwas fragen?","اجازه هست چیزی بپرسم؟"],["Ich habe eine Frage.","من یک سؤال دارم."],["Darf ich hereinkommen?","اجازه هست بیایم داخل؟"],["Darf ich herausgehen?","اجازه هست بروم بیرون؟"],["Darf ich mich setzen?","اجازه هست بنشینم؟"],["Darf ich das Fenster öffnen?","اجازه هست پنجره را باز کنم؟"],["Darf ich auf die Toilette gehen?","اجازه هست به دستشویی بروم؟"],["Darf ich fotografieren?","اجازه هست عکس بگیرم؟"],["Können Sie das bitte wiederholen?","لطفاً می‌توانید تکرار کنید؟"],["Langsamer, bitte.","آهسته‌تر لطفاً."],["Ich verstehe nicht.","نمی‌فهمم."],["Wie bitte?","ببخشید؟ / چی گفتید؟ (وقتی نشنیدی یا نفهمیدی)"],["Tut mir leid.","متأسفم (ببخشید)"],["Es tut mir leid.","متأسفم (شکل کامل جمله)"]]],["👩‍🏫 استاد و معلم",[["der Lehrer / die Lehrerin","معلم (آقا / خانم)"],["der Professor / die Professorin","استاد (دانشگاه)"],["Herr Müller","آقای مولر (Herr + فامیلی)"],["Frau Müller","خانم مولر (Frau + فامیلی)"],["Guten Tag, Frau Müller!","روز بخیر، خانم مولر!"]]],["🪑 وسایل کلاس",[["der Tisch","میز"],["der Stuhl","صندلی"],["die Tafel","تخته"],["das Buch","کتاب"],["das Heft","دفتر"],["der Stift","خودکار / مداد"],["die Tür","در"],["das Fenster","پنجره"],["die Tasche","کیف"],["das Handy","موبایل"],["die Uhr","ساعت"]]],["🔤 املا",[["Wie schreibt man das?","این چطور نوشته می‌شود؟"],["Buchstabieren Sie bitte!","لطفاً هجی کنید!"]]],
 ["🌅 سلام در طول روز (ترتیب)",[["Guten Morgen","صبح بخیر"],["Guten Tag","روز بخیر"],["Guten Abend","عصر بخیر"],["Gute Nacht","شب بخیر"]]],
 ["❓ سؤال و جواب",[["Wer ist das?","این کیست؟"],["Das ist Amir.","این امیر است."],["Du bist Majid und sie ist Zahra.","تو مجید هستی و او (زن) زهرا است."],["Welche Reihenfolge ist richtig?","کدام ترتیب درست است؟"]]],
-["🗣️ جلسه‌ی امروز: زبان و سکونت",[["Welche Sprache sprechen Sie?","شما به کدام زبان صحبت می‌کنید؟ (رسمی)"],["Welche Sprache sprichst du?","تو به کدام زبان صحبت می‌کنی؟ (غیررسمی)"],["Ich spreche ein bisschen Deutsch und gut Englisch.","من کمی آلمانی و خوب انگلیسی صحبت می‌کنم."],["Ich spreche gut Englisch.","من خوب انگلیسی صحبت می‌کنم."],["Ich spreche sehr gut Persisch.","من خیلی خوب فارسی صحبت می‌کنم."],["Woher kommen Sie?","شما اهل کجایید؟ (رسمی)"],["Woher kommst du?","تو اهل کجایی؟ (غیررسمی)"],["Ich komme aus dem Iran.","من از ایران می‌آیم (اهل ایرانم)."],["Ich komme aus dem Iran, aus Esfahan.","من از ایران، از اصفهان هستم."],["Wo wohnen Sie?","شما کجا زندگی می‌کنید؟ (رسمی)"],["Wo wohnst du?","تو کجا زندگی می‌کنی؟ (غیررسمی)"],["Ich wohne in Berlin.","من در برلین زندگی می‌کنم."],["Ich wohne in München.","من در مونیخ زندگی می‌کنم."],["Wohnen Sie in Esfahan?","آیا شما در اصفهان زندگی می‌کنید؟"],["Ja, ich wohne in Esfahan.","بله، من در اصفهان زندگی می‌کنم."],["Kommt ihr aus dem Iran?","آیا شما (جمع) اهل ایران هستید؟"],["Ja, wir kommen aus dem Iran.","بله، ما اهل ایران هستیم."],["Heißt du Ali?","آیا اسمت علی است؟"],["Ja, ich heiße Ali.","بله، اسمم علی است."],["Ich heiße Majid.","اسم من مجید است."],["Das ist Ali.","این علی است."]]]];
-const V=[["kommen","komm","آمدن"],["lernen","lern","یاد گرفتن"],["kaufen","kauf","خریدن"],["trinken","trink","نوشیدن"],["heißen","heiß","نام داشتن"],["hören","hör","شنیدن"],["schreiben","schreib","نوشتن"],["wohnen","wohn","ساکن بودن / زندگی کردن"],["sein","","بودن",["bin","bist","ist","sind","seid","sind"]],["haben","","داشتن",["habe","hast","hat","haben","habt","haben"]],["sprechen","sprech","صحبت کردن",["spreche","sprichst","spricht","sprechen","sprecht","sprechen"]],["helfen","helf","کمک کردن",["helfe","hilfst","hilft","helfen","helft","helfen"]],["fahren","fahr","رفتن با وسیله / رانندگی کردن",["fahre","fährst","fährt","fahren","fahrt","fahren"]]];
+["🗣️ جلسه‌ی امروز: زبان و سکونت",[["Welche Sprache sprechen Sie?","شما به کدام زبان صحبت می‌کنید؟ (رسمی)"],["Welche Sprache sprichst du?","تو به کدام زبان صحبت می‌کنی؟ (غیررسمی)"],["Ich spreche ein bisschen Deutsch und gut Englisch.","من کمی آلمانی و خوب انگلیسی صحبت می‌کنم."],["Ich spreche gut Englisch.","من خوب انگلیسی صحبت می‌کنم."],["Ich spreche sehr gut Persisch.","من خیلی خوب فارسی صحبت می‌کنم."],["Woher kommen Sie?","شما اهل کجایید؟ (رسمی)"],["Woher kommst du?","تو اهل کجایی؟ (غیررسمی)"],["Ich komme aus dem Iran.","من از ایران می‌آیم (اهل ایرانم)."],["Ich komme aus dem Iran, aus Esfahan.","من از ایران، از اصفهان هستم."],["Wo wohnen Sie?","شما کجا زندگی می‌کنید؟ (رسمی)"],["Wo wohnst du?","تو کجا زندگی می‌کنی؟ (غیررسمی)"],["Ich wohne in Berlin.","من در برلین زندگی می‌کنم."],["Ich wohne in München.","من در مونیخ زندگی می‌کنم."],["Wohnen Sie in Esfahan?","آیا شما در اصفهان زندگی می‌کنید؟"],["Ja, ich wohne in Esfahan.","بله، من در اصفهان زندگی می‌کنم."],["Kommt ihr aus dem Iran?","آیا شما (جمع) اهل ایران هستید؟"],["Ja, wir kommen aus dem Iran.","بله، ما اهل ایران هستیم."],["Heißt du Ali?","آیا اسمت علی است؟"],["Ja, ich heiße Ali.","بله، اسمم علی است."],["Ich heiße Majid.","اسم من مجید است."],["Das ist Ali.","این علی است."]]],
+["📱 جلسه‌ی بعد: سن و تماس",[["Wie alt bist du?","تو چند سالته؟ (غیررسمی)"],["Wie alt sind Sie?","شما چند سال دارید؟ (رسمی)"],["Ich bin 28 Jahre alt.","من ۲۸ سال دارم."],["Wie ist Ihre Handynummer?","شماره‌ی موبایل شما چیست؟"],["Meine Handynummer ist …","شماره‌ی موبایل من … است. (شماره‌ی خودت را بگذار)"],["Wie ist Ihre E-Mailadresse?","ایمیل شما چیست؟"],["Meine E-Mailadresse ist …","ایمیل من … است. (ایمیل خودت را بگذار)"]]],
+["💬 خواستن و علاقه",[["Was möchten Sie?","شما چه می‌خواهید؟ (چه دوست دارید؟)"],["Ich fahre gern Auto.","من با علاقه رانندگی می‌کنم."],["Was machen Sie gern?","شما چه کاری را با علاقه انجام می‌دهید؟ (چه کاری دوست دارید؟)"]]],
+["🏷️ سؤال و جواب با آرتیکل",[["Was ist das? Eine Tür?","این چیست؟ یک در؟"],["Nein, das ist keine Tür.","نه، این در نیست."],["Das ist ein Fenster.","این یک پنجره است."],["Was ist das? Ein Kaffee?","این چیست؟ یک قهوه؟"],["Nein, das ist kein Kaffee.","نه، این قهوه نیست."],["Das ist ein Tee.","این یک چای است."],["Was ist das? Ein Fenster?","این چیست؟ یک پنجره؟"],["Nein, das ist kein Fenster.","نه، این پنجره نیست."],["Das ist eine Tür.","این یک در است."],["Was ist das? Ein Laptop?","این چیست؟ یک لپ‌تاپ؟"],["Nein, das ist kein Laptop.","نه، این لپ‌تاپ نیست."],["Das ist ein Handy.","این یک موبایل است."],["Was ist denn das? Ein Buch?","این دیگر چیست؟ یک کتاب؟ (denn = تردید)"],["Nein, das ist doch kein Buch.","نه، این که کتاب نیست! (doch = تأکید)"],["Das ist ein Heft.","این یک دفتر است."]]],
+["🙂 حال و احوال",[["Wie geht es dir?","حالت چطوره؟ (غیررسمی)"],["Wie geht's dir?","حالت چطوره؟ (غیررسمی، کوتاه)"],["Wie geht's?","چطوری؟ (غیررسمی، کوتاه)"],["Wie geht es Ihnen?","حال شما چطور است؟ (رسمی)"],["Es geht mir toll.","حالم عالی است."],["Es geht mir gut.","حالم خوب است."],["Es geht.","بد نیست / معمولی."],["Naja, so lala.","خب، نه چندان / متوسط."],["Es geht mir nicht so gut.","حالم زیاد خوب نیست."],["Herzlich willkommen!","خوش آمدید!"]]]];
+const V=[["kommen","komm","آمدن"],["lernen","lern","یاد گرفتن"],["kaufen","kauf","خریدن"],["trinken","trink","نوشیدن"],["heißen","heiß","نام داشتن"],["hören","hör","شنیدن"],["schreiben","schreib","نوشتن"],["wohnen","wohn","ساکن بودن / زندگی کردن"],["sein","","بودن",["bin","bist","ist","sind","seid","sind"]],["haben","","داشتن",["habe","hast","hat","haben","habt","haben"]],["sprechen","sprech","صحبت کردن",["spreche","sprichst","spricht","sprechen","sprecht","sprechen"]],["helfen","helf","کمک کردن",["helfe","hilfst","hilft","helfen","helft","helfen"]],["fahren","fahr","رفتن با وسیله / رانندگی کردن",["fahre","fährst","fährt","fahren","fahrt","fahren"]],["arbeiten","arbeit","کار کردن",0,"e"],["möchten","möcht","مایل بودن (مؤدبانه)",["möchte","möchtest","möchte","möchten","möchtet","möchten"]],["gehen","geh","رفتن"],["sehen","seh","دیدن",["sehe","siehst","sieht","sehen","seht","sehen"]]];
 const PR=["ich","du","er/sie/es","wir","ihr","sie/Sie"],EN=["e","st","t","en","t","en"];
-function form(v,i){if(v[3])return v[3][i];if(v[0]==="heißen"&&i===1)return"heißt";return v[1]+EN[i]}
+function form(v,i){if(v[3])return v[3][i];if(v[4]==='e'&&[1,2,4].includes(i))return v[1]+'e'+EN[i];if(v[0]==="heißen"&&i===1)return"heißt";return v[1]+EN[i]}
 const S=[
 ["ß","مثل «س» (همان s)","heiß, Straße"],["ä","مثل «اِ» (e)","Bär, Käse"],
 ["eu","«اُی» (oy)","neu, Leute, Freund"],["ei","«آی» (ay)","frei, mein, nein"],["au","«آو» (aw)","Frau, Haus, auf"],
@@ -28,7 +32,7 @@ const S=[
 ["ö","«اُ» با لب‌های گرد","schön, hören"],["ü","«اوی» (i با لب گرد)","Tür, müde"],
 ["r","در گلو، نرم؛ با هر حرف صدادار","Raum, Reihe, rund"],["s قبل از مصوت","مثل «ز»","Seite, Sonne, sammeln"],
 ["ch بعد از a / o / u / au","مثل «خ» (گلویی)","Buch, auch, Sprache, gesprochen"],["ch بعد از e / i و ...","مثل «ش» نرم (ich-Laut)","ich, sprechen, richtig"]];
-const NUMS=[[0,"null"],[1,"eins"],[2,"zwei"],[3,"drei"],[4,"vier"],[5,"fünf"],[6,"sechs"],[7,"sieben"],[8,"acht"],[9,"neun"],[10,"zehn"],[11,"elf"],[12,"zwölf"],[13,"dreizehn"],[14,"vierzehn"],[15,"fünfzehn"],[16,"sechzehn"],[17,"siebzehn"],[18,"achtzehn"],[19,"neunzehn"],[20,"zwanzig"],[30,"dreißig"],[40,"vierzig"],[50,"fünfzig"],[60,"sechzig"],[70,"siebzig"],[80,"achtzig"],[90,"neunzig"],[100,"hundert"],[21,"einundzwanzig"],[35,"fünfunddreißig"]];
+const NUMS=[[0,"null"],[1,"eins"],[2,"zwei"],[3,"drei"],[4,"vier"],[5,"fünf"],[6,"sechs"],[7,"sieben"],[8,"acht"],[9,"neun"],[10,"zehn"],[11,"elf"],[12,"zwölf"],[13,"dreizehn"],[14,"vierzehn"],[15,"fünfzehn"],[16,"sechzehn"],[17,"siebzehn"],[18,"achtzehn"],[19,"neunzehn"],[20,"zwanzig"],[30,"dreißig"],[40,"vierzig"],[50,"fünfzig"],[60,"sechzig"],[70,"siebzig"],[80,"achtzig"],[90,"neunzig"],[100,"hundert"],[21,"einundzwanzig"],[25,"fünfundzwanzig"],[33,"dreiunddreißig"],[48,"achtundvierzig"],[94,"vierundneunzig"]];
 const ALPH=[["A","a","آ"],["B","be","بِه"],["C","tse","تسِه"],["D","de","دِه"],["E","e","اِ"],["F","ef","اِف"],["G","ge","گِه"],["H","ha","هآ"],["I","i","ای"],["J","jot","یُت"],["K","ka","کآ"],["L","el","اِل"],["M","em","اِم"],["N","en","اِن"],["O","o","اُ"],["P","pe","پِه"],["Q","ku","کو"],["R","er","اِر"],["S","es","اِس"],["T","te","تِه"],["U","u","او"],["V","fau","فاو"],["W","we","وِه"],["X","ix","ایکس"],["Y","ypsilon","اوپسیلون"],["Z","tset","تسِت"],["Ä","ä","اِ"],["Ö","ö","اُ گرد"],["Ü","ü","اوی"],["ß","Eszett","اِس‌تسِت"]];
 const ALW={A:'Apfel',B:'Ball',C:'Cola',D:'Dach',E:'Eis',F:'Fisch',G:'Gabel',H:'Haus',I:'Igel',J:'Jacke',K:'Katze',L:'Lampe',M:'Mutter',N:'Nase',O:'Orange',P:'Papier',Q:'Quelle',R:'Regen',S:'Sonne',T:'Tisch',U:'Uhr',V:'Vogel',W:'Wasser',X:'Xylophon',Y:'Ypsilon',Z:'Zebra','Ä':'Äpfel','Ö':'Öl','Ü':'Übung','ß':'Straße'};
 const spL=a=>a[0]==='ß'?'scharfes S, wie in Straße':a[0]+' wie '+ALW[a[0]];
@@ -52,9 +56,9 @@ const LETTER_SAY = { A: 'ah', B: 'beh', C: 'tseh', D: 'deh', E: 'eh', F: 'eff', 
 
 /* ---- Capitalisation (Großschreibung) & Artikel pages ---- */
 const CAPS = [
-  { title: 'نام‌ها (Namen)', fa: 'اسم افراد با حرف بزرگ شروع می‌شود.', ex: ['Ali', 'Zahra', 'Ghasemi'] },
+  { title: 'نام‌ها (Namen)', fa: 'اسم افراد با حرف بزرگ شروع می‌شود.', ex: ['Ali', 'Zahra', 'Ahmadi'] },
   { title: 'اسم‌ها (Nomen)', fa: 'همه‌ی اسم‌ها (حتی وسایل و چیزها) حرف اولشان بزرگ است.', ex: ['der Laptop', 'die Tür', 'das Fenster'] },
-  { title: 'اول جمله / بعد از نقطه', fa: 'اولین کلمه‌ی جمله، یا کلمه‌ی بعد از نقطه، بزرگ نوشته می‌شود.', ex: ['Ich heiße Ali Ghasemi.', 'Mein Name ist Ali Ghasemi.', 'Du bist Majid und sie ist Zahra.'] },
+  { title: 'اول جمله / بعد از نقطه', fa: 'اولین کلمه‌ی جمله، یا کلمه‌ی بعد از نقطه، بزرگ نوشته می‌شود.', ex: ['Ich heiße Ali Ahmadi.', 'Mein Name ist Ali Ahmadi.', 'Du bist Majid und sie ist Zahra.'] },
 ];
 const ARTIKEL = {
   m: [['der Tisch', 'میز'], ['der Stuhl', 'صندلی'], ['der Laptop', 'لپ‌تاپ'], ['der Kaffee', 'قهوه']],
@@ -75,12 +79,16 @@ Object.assign(VFA, {
   helfen: ['کمک می‌کنم', 'کمک می‌کنی', 'کمک می‌کند', 'کمک می‌کنیم', 'کمک می‌کنید', 'کمک می‌کنند'],
   fahren: ['(با وسیله) می‌روم', '(با وسیله) می‌روی', '(با وسیله) می‌رود', '(با وسیله) می‌رویم', '(با وسیله) می‌روید', '(با وسیله) می‌روند'],
 });
-const IRR_NOTE = { sprechen: 'e → i', helfen: 'e → i', fahren: 'a → ä' };
+const IRR_NOTE = { sprechen: 'e → i', helfen: 'e → i', fahren: 'a → ä', sehen: 'e → ie' };
+Object.assign(VFA, {
+  gehen: ['(می‌)روم', '(می‌)روی', '(می‌)رود', '(می‌)رویم', '(می‌)روید', '(می‌)روند'],
+  sehen: ['می‌بینم', 'می‌بینی', 'می‌بیند', 'می‌بینیم', 'می‌بینید', 'می‌بینند'],
+});
 
 /* ---- Satzbau: sentence & question patterns (token = [text, role, position]; role s = Subjekt, v = Verb, w = W-Frage) ---- */
 const SATZ = {
   stmt: [
-    { q: [['Ich', 's', 1], ['heiße', 'v', 2], ['Ali Ghasemi', '']], fa: 'اسم من علی قاسمی است.' },
+    { q: [['Ich', 's', 1], ['heiße', 'v', 2], ['Ali Ahmadi', '']], fa: 'اسم من علی احمدی است.' },
     { q: [['Ich', 's', 1], ['komme', 'v', 2], ['aus dem Iran', '']], fa: 'من از ایران می‌آیم.' },
     { q: [['Ich', 's', 1], ['wohne', 'v', 2], ['in Berlin', '']], fa: 'من در برلین زندگی می‌کنم.' },
     { q: [['Das', 's', 1], ['ist', 'v', 2], ['Amir', '']], fa: 'این امیر است.' },
@@ -106,3 +114,23 @@ const SATZ = {
       fa: 'کجا زندگی می‌کنید / می‌کنی؟', a: [['Ich wohne in Berlin.', 'من در برلین زندگی می‌کنم.']] },
   ],
 };
+
+const IRR_HI = { möchten: [0, 2] };   /* which rows are highlighted (★) for möchten: ich + er/es/sie */
+Object.assign(VFA, {
+  arbeiten: ['کار می‌کنم', 'کار می‌کنی', 'کار می‌کند', 'کار می‌کنیم', 'کار می‌کنید', 'کار می‌کنند'],
+  möchten: ['مایلم', 'مایلی', 'مایل است', 'مایلیم', 'مایلید', 'مایلند'],
+});
+
+/* ---- Artikel page (definite → indefinite → negation) ---- */
+const ART_TYPES = [
+  ['Definiter Artikel', 'حرف تعریف معین (der / das / die)'], ['Indefiniter Artikel', 'حرف تعریف نامعین (ein / eine)'],
+  ['Negationsartikel', 'حرف تعریف نفی (kein / keine)'], ['Possessivartikel', 'حرف تعریف ملکی'],
+];
+const ART_NEG = { m: 'kein', n: 'kein', f: 'keine' };
+const ART_QA = [
+  { q: 'Was ist das? Eine Tür?', no: 'Nein, das ist keine Tür.', yes: 'Das ist ein Fenster.', forms: 'die Tür → eine Tür · das Fenster → ein Fenster' },
+  { q: 'Was ist das? Ein Kaffee?', no: 'Nein, das ist kein Kaffee.', yes: 'Das ist ein Tee.', forms: 'der Tee → ein Tee' },
+  { q: 'Was ist das? Ein Fenster?', no: 'Nein, das ist kein Fenster.', yes: 'Das ist eine Tür.', forms: 'das Fenster → ein Fenster · die Tür → eine Tür' },
+  { q: 'Was ist das? Ein Laptop?', no: 'Nein, das ist kein Laptop.', yes: 'Das ist ein Handy.', forms: 'der Laptop → ein Laptop · das Handy → ein Handy' },
+  { q: 'Was ist denn das? Ein Buch?', no: 'Nein, das ist doch kein Buch.', yes: 'Das ist ein Heft.', forms: 'das Buch → ein Buch → kein Buch · das Heft → ein Heft', note: 'denn = Zweifel (تردید) · doch = Betonung (تأکید)' },
+];

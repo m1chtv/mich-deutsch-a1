@@ -1,4 +1,4 @@
-/* Deutsch A1 – class practice app | github.com/m1chtv
+/* Deutsch A1 – German A1 practice app
    Vanilla JS + Bootstrap 5 (RTL) + Bootstrap Icons.  Content lives in js/data.js and js/dict.js */
 'use strict';
 
@@ -23,7 +23,7 @@ const TABS = [ // id, icon, short label, long label (desktop sidebar)
   ['artikel', 'tags', 'آرتیکل', 'حرف تعریف (Artikel)'], ['dict', 'book-half', 'دیکشنری', 'دیکشنری و فلش‌کارت'],
   ['quiz', 'bullseye', 'آزمون', 'آزمون'],
 ];
-const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck', 'sunrise', 'question-circle', 'translate'];
+const GROUP_ICONS = ['person-badge', 'easel2', 'arrow-left-right', 'hand-index-thumb', 'mortarboard-fill', 'backpack2', 'spellcheck', 'sunrise', 'question-circle', 'translate', 'telephone', 'heart', 'tags', 'emoji-smile'];
 const ui = {
   tab: 'phrases', verb: 0, slow: store.get('slow', false), hide: store.get('hide', false),
   psub: 'sent', vsub: 'conj', asub: 'letters', art: 'm', dfilter: 'all', dq: '', fdeck: 'all', fdir: 'de', fcur: null, fprev: null, fflip: false, fconfirm: false,
@@ -79,8 +79,8 @@ const views = {
   },
 
   numbers: () => `
-    <div class="alert alert-secondary small rounded-4">اعداد ۰ تا ۱۰۰. بالای ۲۰: <b>واحد + und + دهگان</b> (21 = einundzwanzig، 35 = fünfunddreißig)</div>
-    ${grid('row-cols-3 row-cols-md-4 row-cols-lg-6', NUMS.map(n => `
+    <div class="alert alert-secondary small rounded-4">اعداد ۰ تا ۱۰۰. بالای ۲۰: <b>واحد + und + دهگان</b> (21 = einundzwanzig — نه einsundzwanzig؛ 25 = fünfundzwanzig، 33 = dreiunddreißig، 48 = achtundvierzig، 94 = vierundneunzig)</div>
+    ${grid('row-cols-3 row-cols-md-4 row-cols-lg-6', [...NUMS].sort((a, b) => a[0] - b[0]).map(n => `
       <div class="col"><button class="tile" data-say="${n[1]}" data-slow="1"><b>${n[0]}</b><span dir="ltr">${n[1]}</span></button></div>`).join(''))}`,
 
   letters: () => `
@@ -95,8 +95,8 @@ const views = {
       const f = form(v, i);
       let html;
       if (irr) {
-        const diff = !v[1] || f !== v[1] + EN[i];
-        html = `<b class="${diff ? 'text-brand' : ''}">${f}</b>${diff && v[1] && (i === 1 || i === 2) ? ' <span class="text-warning">★</span>' : ''}`;
+        const diff = IRR_HI[v[0]] ? IRR_HI[v[0]].includes(i) : (!v[1] || f !== v[1] + EN[i]);
+        html = `<b class="${diff ? 'text-brand' : ''}">${f}</b>${diff && (IRR_HI[v[0]] || (v[1] && (i === 1 || i === 2))) ? ' <span class="text-warning">★</span>' : ''}`;
       } else {
         const cut = f.startsWith(v[1]) ? v[1].length : f.length - 1;
         html = `<span class="text-body-secondary">${f.slice(0, cut)}</span><b class="text-brand">${f.slice(cut)}</b>`;
@@ -107,10 +107,15 @@ const views = {
         ${sayBtn(PRO_DE[i] + ' ' + f, 'btn-warning btn-sm rounded-circle')}
         <div class="conj-m">${PRO_SHORT[i]} ${pv[i]}</div></div>`;
     }).join('');
-    const ends = PRO_FA.map((p, i) => `<tr><td class="de" dir="ltr">${p[0]}</td><td>${p[1]}</td><td dir="ltr" class="text-brand fw-bold">-${EN[i]}</td></tr>`).join('');
+    const EN2 = v[4] === 'e' ? ['e', 'est', 'et', 'en', 'et', 'en'] : EN;
+    const ends = PRO_FA.map((p, i) => `<tr><td class="de" dir="ltr">${p[0]}</td><td>${p[1]}</td><td dir="ltr" class="text-brand fw-bold">-${EN2[i]}</td></tr>`).join('');
     const chip = ([x, i]) => `<button class="btn btn-sm rounded-pill ${i === ui.verb ? 'btn-brand' : 'btn-outline-secondary'}" data-verb="${i}">${x[0]}</button>`;
     const all = V.map((x, i) => [x, i]);
-    const side = irr ? `
+    const MOCH = `
+        <h2 class="h6" dir="ltr">${ico('info-circle', 'text-brand')} möchten</h2>
+        <p class="mb-1" dir="ltr">ich ★ möchte · er / es / sie ★ möchte</p>
+        <p class="small text-body-secondary mb-0">ich و er / es / sie یک شکل‌اند (möchte) و پایانه ندارند؛ روی تابلو با ★ مشخص شده‌اند.</p>`;
+    const side = v[0] === 'möchten' ? MOCH : irr ? `
         <h2 class="h6" dir="ltr">${ico('info-circle', 'text-brand')} Unregelmäßige Verben</h2>
         <p class="mb-1" dir="ltr">Es gibt in zweiten und dritten Person singular Unterschied.</p>
         <p class="small text-body-secondary">(du و er / es / sie) — علامت ★ یعنی همین‌جا تفاوت هست.</p>
@@ -119,7 +124,8 @@ const views = {
       : `
         <h2 class="h6">${ico('person-lines-fill', 'text-brand')} ضمیر شخصی و پایانه (Personalpronomen)</h2>
         <p class="small text-body-secondary mb-2">فرمول: <b>ریشه فعل (Verbstamm) + پایانه مناسب (Endung)</b></p>
-        <table class="table table-sm align-middle mb-0"><tbody>${ends}</tbody></table>`;
+        <table class="table table-sm align-middle mb-0"><tbody>${ends}</tbody></table>
+        ${v[4] === 'e' ? '<p class="small text-body-secondary mt-2 mb-0" dir="rtl">Verbstamm <b dir="ltr">[t, d]</b>: وقتی ریشه به t یا d ختم می‌شود، در du، er / es / sie و ihr یک <b dir="ltr">e</b> قبل از پایانه می‌آید (روی تابلو دورش خط کشیده شد).</p>' : ''}`;
     return `
       <div class="row g-2 mb-3">
         <div class="col-md-6"><div class="rule"><div class="d-flex align-items-center gap-2 mb-1"><span class="badge rounded-pill text-bg-secondary">1</span><b dir="ltr">regelmäßige Verben</b><span class="badge text-bg-success">95%</span></div>
@@ -130,11 +136,13 @@ const views = {
       <div class="small text-body-secondary mb-1" dir="ltr">regelmäßige Verben</div>
       <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${all.filter(([x]) => !x[3]).map(chip).join('')}</div>
       <div class="small text-body-secondary mb-1" dir="ltr">unregelmäßige Verben</div>
-      <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${all.filter(([x]) => x[3]).map(chip).join('')}</div>
+      <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${all.filter(([x]) => x[3] && x[0] !== 'möchten').map(chip).join('')}</div>
+      <div class="small text-body-secondary mb-1" dir="ltr">möchten</div>
+      <div class="d-flex flex-wrap gap-2 mb-3" dir="ltr">${all.filter(([x]) => x[0] === 'möchten').map(chip).join('')}</div>
       <div class="row g-3">
         <div class="col-lg-5"><div class="card rounded-4 h-100"><div class="card-body">${side}</div></div></div>
         <div class="col-lg-7"><div class="card rounded-4 h-100"><div class="card-body">
-          <p class="mb-1"><b class="de" dir="ltr">${v[0]}</b> <span class="text-body-secondary">= ${v[2]}</span> ${irr ? '<span class="badge text-bg-warning">بی‌قاعده</span>' : ''}</p>
+          <p class="mb-1"><b class="de" dir="ltr">${v[0]}</b> <span class="text-body-secondary">= ${v[2]}</span> ${irr && v[0] !== 'möchten' ? '<span class="badge text-bg-warning">بی‌قاعده</span>' : ''}</p>
           ${rows}
           ${v[0] === 'heißen' ? '<div class="alert alert-warning small py-2 mt-2 mb-0">نکته: du heißt (نه heißst) — چون ß و s کنار هم می‌آیند، یکی حذف می‌شود.</div>' : ''}
           <button class="btn btn-brand mt-3" data-slow="1" data-say="${attr(PR.map((p, i) => PRO_DE[i] + ' ' + form(v, i)).join(', '))}">${ico('play-fill')} همه را آهسته بخوان</button>
@@ -215,14 +223,22 @@ const views = {
         <p class="mb-0" dir="ltr"><b>Tipp:</b> Sie müssen nur auswendig lernen.</p>
         <p class="small text-body-secondary mb-0">نکته: فقط باید حفظ کنی؛ هر اسم را همیشه همراه artikelش یاد بگیر.</p></div>
         ${sayBtn('Alle Nomen haben Artikel im Deutsch. Tipp: Sie müssen nur auswendig lernen.')}</div></div>
+      <div class="card rounded-4 mb-3"><div class="card-body"><h2 class="h6 mb-2" dir="ltr">Artikel</h2>
+        <ol class="mb-0 ps-3">${ART_TYPES.map(t => `<li class="mb-1"><b dir="ltr">${t[0]}</b> <span class="small text-body-secondary">— ${t[1]}</span></li>`).join('')}</ol></div></div>
       ${grid('row-cols-1 row-cols-md-3', ['m', 'n', 'f'].map(g => `
         <div class="col"><div class="card rounded-4 h-100"><div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-1"><span class="badge fs-5 text-bg-${ART[g][1]}">${ART[g][0]}</span><b>${GN[g][0]}</b><span class="text-body-secondary small" dir="ltr">${GN[g][1]}</span></div>
           <p class="small text-body-secondary">نامعین: <b dir="ltr">${GN[g][3]}</b></p>${rowsOf(g)}</div></div></div>`).join(''))}
       <div class="card rounded-4 mt-3"><div class="card-body"><h2 class="h6">جدول خلاصه</h2>
-        <table class="table table-sm align-middle text-center mb-0"><thead><tr><th>جنس</th><th>معین</th><th>نامعین</th><th>جمع (همه)</th></tr></thead><tbody>
-          ${['m', 'n', 'f'].map(g => `<tr><td>${GN[g][0]}</td><td><span class="badge text-bg-${ART[g][1]}">${ART[g][0]}</span></td><td dir="ltr">${GN[g][2]}</td><td><span class="badge text-bg-danger">die</span></td></tr>`).join('')}
+        <table class="table table-sm align-middle text-center mb-0"><thead><tr><th>جنس</th><th dir="ltr">Definiter</th><th dir="ltr">Indefiniter</th><th dir="ltr">Negations-</th></tr></thead><tbody>
+          ${['m', 'n', 'f'].map(g => `<tr><td>${GN[g][0]}</td><td><span class="badge text-bg-${ART[g][1]}">${ART[g][0]}</span></td><td dir="ltr">${GN[g][2]}</td><td dir="ltr"><b>${ART_NEG[g]}</b></td></tr>`).join('')}
         </tbody></table></div></div>
+      <h2 class="section-title">${ico('question-circle')} سؤال و جواب با آرتیکل (− / +)</h2>
+      <div class="card rounded-4"><div class="card-body">${ART_QA.map(e => `<div class="mb-3 pb-2 border-bottom"><div class="d-flex align-items-center gap-2">
+        <div class="flex-grow-1" dir="ltr"><div class="de" style="font-size:1.05rem">${attr(e.q)}</div>
+          <div class="small"><b class="text-danger">−</b> ${attr(e.no)}</div><div class="small"><b class="text-success">+</b> ${attr(e.yes)}</div></div>
+        ${sayBtn(`${e.q} ${e.no} ${e.yes}`, 'btn-warning btn-sm rounded-circle')}</div>
+        <div class="small text-body-secondary mt-1" dir="ltr">${attr(e.forms)}</div>${e.note ? `<div class="small text-body-secondary">${e.note}</div>` : ''}</div>`).join('')}</div></div>
       <h2 class="section-title">${ico('lightbulb')} نشانه‌هایی که کمک می‌کنند (قاعده‌ی کلی؛ استثنا دارد)</h2>
       ${grid('row-cols-1 row-cols-lg-3', ART_TIPS.map(t => `<div class="col"><div class="entry"><span class="badge fs-6 text-bg-${t[1]}">${t[0]}</span>
         <div class="grow"><div class="fw-bold" dir="ltr">${t[2]}</div><div class="small text-body-secondary" dir="ltr">${t[3]}</div></div></div></div>`).join(''))}
@@ -475,7 +491,7 @@ function make(mode) {
       return mc({ mode, q: null, say: entryDisp(c), after: entryDisp(c), ans: entryDisp(c), wrong: others(E, c, entryDisp) }); }
     case 'spell': { const c = pick(W.filter(e => /^[A-Za-zÄÖÜäöüß]+$/.test(e.de)), 1)[0];
       return { kind: 'type', mode, q: null, say: c.de, hint: c.fa, after: entryDisp(c), ans: c.de }; }
-    case 'order': { const S2 = P.flatMap(g => g[1]).filter(x => !/[≠/]/.test(x[0]) && x[0].split(' ').length >= 3 && x[0].split(' ').length <= 7);
+    case 'order': { const S2 = P.flatMap(g => g[1]).filter(x => !/[≠/…]/.test(x[0]) && x[0].split(' ').length >= 3 && x[0].split(' ').length <= 7);
       const c = pick(S2, 1)[0], tokens = c[0].split(' ');
       return { kind: 'order', mode, q: c[1], qRtl: true, tokens: shuffle(tokens), ans: c[0], after: c[0] }; }
     case 'caps': {
@@ -638,10 +654,10 @@ function renderResult() {
 /* ================= render + tabs ================= */
 function renderTabs() {
   $('#tabbar').innerHTML = `
-    <div class="side-brand"><b>${ico('translate', 'text-brand')} Deutsch A1</b><small>تمرین کلاس آلمانی</small></div>
+    <div class="side-brand"><b>${ico('translate', 'text-brand')} Deutsch A1</b><small>تمرین و مرور آلمانی</small></div>
     <ul class="nav nav-justified px-2">${TABS.map(t => `
       <li class="nav-item"><button class="nav-link ${t[0] === ui.tab ? 'active' : ''}" data-tab="${t[0]}">${ico(t[1])}<span class="short">${t[2]}</span><span class="long">${t[3]}</span></button></li>`).join('')}</ul>
-    <div class="side-foot"><a class="link-secondary" href="https://github.com/m1chtv" target="_blank" rel="noopener">${ico('github')} github.com/m1chtv</a></div>`;
+    <div class="side-foot">Deutsch A1 · MIT</div>`;
 }
 function updateHero() {
   const box = $('#hero-stats');

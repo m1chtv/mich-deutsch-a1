@@ -1,157 +1,163 @@
 <div align="center">
 
-# 🇩🇪 Deutsch A1 — تمرین کلاس آلمانی
+# 🇩🇪 Deutsch A1 — Learn & Practise
 
-**وب‌اپ تمرین زبان آلمانی (سطح A1) بر پایه‌ی درس‌های کلاس و کتاب *Starten wir***
-عبارت‌ها · صرف فعل · اعداد · الفبا · تلفظ · آزمون صوتی
+**A free, offline-capable web app for practising beginner German (A1).**
+Phrases · Verb conjugation · Sentence & question patterns · Numbers · Alphabet & pronunciation · Articles · Dictionary · Flashcards · Audio quizzes
 
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3_RTL-7952B3?logo=bootstrap&logoColor=white)
 ![Bootstrap Icons](https://img.shields.io/badge/Bootstrap_Icons-1.13-7952B3?logo=bootstrap&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-offline-5A0FC8?logo=pwa&logoColor=white)
-![JavaScript](https://img.shields.io/badge/Vanilla-JavaScript-F7DF1E?logo=javascript&logoColor=black)
-
-[**🔗 دمو (GitHub Pages)**](https://m1chtv.github.io/deutsch-a1/) ·
-[گزارش مشکل](https://github.com/m1chtv/deutsch-a1/issues) ·
-[پروفایل من](https://github.com/m1chtv)
+![No build](https://img.shields.io/badge/build-none-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 </div>
 
 ---
 
-## English summary
+## English
 
-A mobile-first, offline-capable (PWA) web app for practising beginner German (A1) based on class notes and the *Starten wir* course book. Built with **Bootstrap 5.3 (RTL)**, **Bootstrap Icons** and vanilla JavaScript — no build step, no framework, no backend. Pronunciation uses the browser's built-in Web Speech API (`de-DE`). The UI is in Persian (RTL).
+A static, no-backend web app for learners of German at level **A1**. The interface is in **Persian (RTL)** and uses **Bootstrap 5.3** and **Bootstrap Icons**; pronunciation uses your browser's built-in text-to-speech (`de-DE`). Everything runs in the browser — there is no account, no tracking and no server.
 
----
+### Features
 
-## ✨ امکانات
-
-| بخش | توضیح |
+| Area | What you get |
 |---|---|
-| 💬 **عبارت‌ها و کلمه‌ها** | معرفی، عبارت‌های کلاس، اجازه گرفتن، استاد و معلم، وسایل کلاس، متضادها و املا؛ **و تک‌تک کلمه‌های تابلو** (به‌تفکیک جلسه) با حرف تعریف رنگی؛ کنار هر مورد دکمه‌ی پخش صدا |
-| 🔢 **اعداد** | ۰ تا ۱۰۰ همراه با قاعده‌ی اعداد بالای ۲۰ (`einundzwanzig`) |
-| 🔤 **الفبا و تلفظ** | سه زیرصفحه: حروف (فقط نام خود حرف خوانده می‌شود)، ترکیب حروف و تلفظ (ß ä eu ei au äu tsch ö ü r s و ch با دو صدای «خ» و «ش»)، و **حروف بزرگ (Großschreibung)** با سه حالت تابلو |
-| ✏️ **فعل و جمله** | دو زیرصفحه: **صرف فعل** (فرمول «ریشه + پایانه»، ضمیرها با معنی فارسی، فعل‌های باقاعده مثل wohnen و بی‌قاعده sein، haben، sprechen، helfen، fahren با ★ روی du و er/es/sie) و **جمله و سؤال** (فعل در جایگاه ۲، W-Frage، سؤال بله/خیر، formell / informell — با شماره‌ی جایگاه روی هر کلمه مثل تابلو) |
-| 🏷️ **آرتیکل (Artikel)** | صفحه‌ی اختصاصی: Alle Nomen haben Artikel، سه جنس der / das / die با مثال‌های کلاس، حرف نامعین ein / eine، جدول خلاصه، نشانه‌های کمکی (-ung، -chen و ...) و لیست همه‌ی اسم‌ها به‌تفکیک جنس |
-| 📖 **دیکشنری** | جستجوی آلمانی↔فارسی (آفلاین) بین حدود ۲۰۰ کلمه، عبارت، فعل و عدد؛ نمایش der/die/das با رنگ، تلفظ، لینک به جدول صرف فعل، ذخیره‌ی کلمه‌ها با ⭐ و افزودن کلمه‌های شخصی (ذخیره در مرورگر) |
-| 🃏 **فلش‌کارت** | داخل تب دیکشنری؛ کارت دوطرفه با چرخش، مرور فاصله‌دار (روش Leitner با ۵ جعبه)، انتخاب دسته (همه، ذخیره‌شده، اسم‌ها، فعل‌ها، عبارت‌ها، عددها، کلمه‌های من) و جهت آلمانی↔فارسی؛ پیشرفت در مرورگر ذخیره می‌شود |
-| 🎯 **آزمون** | ۱۴ حالت، هر دور ۱۰ سؤال: کلمه‌ها، ترجمه به آلمانی، der/die/das، صرف فعل، فعل از روی فارسی، شنیدن، املا (تایپ)، جمله‌سازی، اعداد، شنیدن عدد، حروف، **حروف بزرگ**، **ترتیب (سلام‌ها و اعداد)** و ترکیبی؛ با نتیجه‌ی پایانی، ستاره، لیست اشتباه‌ها، «تکرار اشتباه‌ها» و بهترین امتیاز هر حالت |
-| 🐢 **تلفظ آهسته** | یک کلید سراسری که همه‌ی صداها را کندتر می‌کند |
-| 🙈 **پنهان‌کردن ترجمه** | برای خودآزمایی؛ روی هر ترجمه‌ی تار بزن تا نمایان شود |
-| 🖥️ **ریسپانسیو** | روی گوشی نوار پایین؛ روی کامپیوتر سایدبار کنار صفحه، شبکه‌ی چندستونه و کارت‌های بزرگ‌تر |
-| ⌨️ **کلیدهای میانبر** | فلش‌کارت: `Space` برگرداندن، `1` هنوز نه، `2` بلدم · آزمون: `1`–`4` انتخاب گزینه، `Enter` سؤال بعدی |
-| 🎨 **دیزاین Studio** | خطوط ضخیم، سایه‌ی سخت و رنگ‌های تخت؛ هدر زرد، صفحه‌بندی مرتب با عنوان هر بخش، زیرمنوهای یکدست و گروه‌های بازشونده (باز / بستن همه)؛ نوار تب پایین روی گوشی و سایدبار روی کامپیوتر؛ حالت روشن و تیره |
-| 🌗 **حالت روشن/تیره** | با ذخیره‌ی انتخاب، پیش‌فرض بر اساس تنظیمات سیستم |
-| 📲 **PWA** | قابل نصب روی صفحه‌ی اصلی و کار کردن بدون اینترنت |
+| 💬 **Phrases & words** | Everyday phrases and vocabulary grouped by topic in collapsible sections, each with audio; optional "hide translation" self-test mode |
+| 🔢 **Numbers** | 0–100 plus compound numbers (`einundzwanzig`, `fünfundzwanzig` …) with audio |
+| 🔤 **Alphabet & sounds** | Letter names, sound combinations (ß, ä, eu, ei, au, äu, tsch, ö, ü, r, s, ch), and capitalisation rules |
+| ✏️ **Verbs & sentences** | Conjugation tables with Persian meaning for every row (regular, irregular, `möchten`, verbs with a stem ending in t/d); verb position 2, W-questions, yes/no questions, formal vs. informal |
+| 🏷️ **Articles** | der / das / die with colour coding, indefinite and negation articles (ein / kein), question-and-answer patterns, helpful endings, and a browsable noun list |
+| 📖 **Dictionary** | Offline German↔Persian search, noun articles, personal word list (saved in your browser) |
+| 🃏 **Flashcards** | Two-sided cards with spaced repetition (Leitner boxes), decks, direction switch |
+| 🎯 **Quiz** | 14 modes (translation, articles, conjugation, listening, spelling by typing, sentence building, numbers, letters, capitalisation, ordering, mixed), 10 questions per round, results with mistakes review |
+| 🎨 **Design** | Bold "Studio" look, light & dark themes, bottom bar on phones, sidebar on desktop |
+| 📲 **PWA** | Installable, works offline after the first visit |
+| ⌨️ **Shortcuts** | Flashcards: `Space` flip, `1` / `2` answer · Quiz: `1`–`4` choose, `Enter` next |
 
-## 🧰 تکنولوژی‌ها
+### Quick start
 
-- [Bootstrap 5.3](https://getbootstrap.com/) (نسخه‌ی RTL) — چیدمان و کامپوننت‌ها
-- [Bootstrap Icons](https://icons.getbootstrap.com/) — همه‌ی آیکون‌ها (رابط کاربری و آیکون اپ)
-- [Baloo Bhaijaan 2](https://fonts.google.com/specimen/Baloo+Bhaijaan+2) — فونت (از طریق `@fontsource`، به‌صورت محلی)
-- Web Speech API — تلفظ آلمانی (`de-DE`)
-- Service Worker + Web App Manifest — PWA
-- بدون فریم‌ورک و بدون مرحله‌ی build؛ فقط HTML + CSS + JS
+No build step and no dependencies. Because service workers need `http(s)`, serve the folder with any static server:
 
-## 📁 ساختار پروژه
+```bash
+git clone https://github.com/<your-username>/deutsch-a1.git
+cd deutsch-a1
+python3 -m http.server 8080     # or: npx serve .
+```
+
+Open `http://localhost:8080`.
+
+### Deploy
+
+Any static host works (GitHub Pages, Netlify, Cloudflare Pages, …). For GitHub Pages: **Settings ▸ Pages ▸ Deploy from a branch ▸ `main` / root**. All paths are relative, so project sub-paths are fine.
+
+### Project structure
 
 ```
 deutsch-a1/
-├─ index.html              # صفحه‌ی اصلی
-├─ manifest.webmanifest    # تنظیمات PWA
-├─ sw.js                   # Service Worker (کش برای حالت آفلاین)
-├─ css/app.css             # استایل‌های سفارشی روی Bootstrap
+├─ index.html              # entry page
+├─ manifest.webmanifest    # PWA manifest
+├─ sw.js                   # service worker (offline cache) — bump CACHE when files change
+├─ css/app.css             # design layer on top of Bootstrap
 ├─ js/
-│  ├─ data.js              # ← محتوای درس‌ها (عبارت‌ها، افعال، اعداد، حروف، تلفظ)
-│  ├─ dict.js              # ← کلمه‌های دیکشنری (اسم با artikel، فعل، قید و ...)
-│  └─ app.js               # منطق برنامه (نمایش، آزمون، صدا، تم)
-├─ icons/                  # آیکون‌های PWA (ساخته‌شده از Bootstrap Icons)
-└─ assets/vendor/          # Bootstrap، Bootstrap Icons و فونت (محلی، برای آفلاین)
+│  ├─ data.js              # phrases, verbs, numbers, letters, sounds, sentence patterns
+│  ├─ dict.js              # dictionary words (WORDS) and vocabulary groups (BOARD)
+│  └─ app.js               # views, quiz, flashcards, speech, theme
+├─ icons/                  # PWA icons (built from Bootstrap Icons)
+└─ assets/vendor/          # Bootstrap, Bootstrap Icons, font (self-hosted for offline use)
 ```
 
-## 🚀 اجرا روی کامپیوتر
+### Adding content
 
-نیازی به نصب چیزی نیست. چون Service Worker و PWA فقط روی `http(s)` کار می‌کنند، پوشه را با یک سرور ساده باز کن:
+All content lives in `js/data.js` and `js/dict.js`.
+
+```js
+// js/data.js — a phrase is [German, Persian]
+["Wie bitte?", "ببخشید؟ / چی گفتید؟"]
+
+// a verb is [infinitive, stem, Persian]; irregular verbs add an array of 6 forms
+["spielen", "spiel", "بازی کردن"]
+["sein", "", "بودن", ["bin", "bist", "ist", "sind", "seid", "sind"]]
+
+// js/dict.js — a word is [type, German, Persian]; type: m/f/n = der/die/das, v = verb, o = other
+['m', 'Hund', 'سگ']
+```
+
+Persian conjugation meanings go in `VFA`. After editing, bump `CACHE` in `sw.js` so installed copies update.
+
+### Speech (pronunciation)
+
+Audio comes from the device's text-to-speech engine, so quality depends on the installed German voice (Android: *Text-to-speech* settings · iOS: *Spoken Content ▸ Voices* · Windows: *Speech* settings). If you hear nothing, install a German voice first.
+
+### Privacy
+
+No analytics, no cookies, no network requests apart from loading the app itself. Progress (flashcards, quiz records, saved words, theme) is stored only in your browser's `localStorage`.
+
+### Contributing
+
+Issues and pull requests are welcome — typo fixes, better translations, new vocabulary, accessibility improvements. Content is edited in `js/data.js` / `js/dict.js`; please keep entries at A1 level and mention where new material comes from.
+
+### Disclaimer
+
+This is an independent learning aid. It is not affiliated with, endorsed by, or a replacement for any textbook, publisher or language school. Translations and examples are study aids and may contain mistakes — please verify with your teacher or a dictionary.
+
+### Credits & licence
+
+- Code: [MIT](LICENSE)
+- [Bootstrap](https://getbootstrap.com/) and [Bootstrap Icons](https://icons.getbootstrap.com/) — MIT
+- [Baloo Bhaijaan 2](https://fonts.google.com/specimen/Baloo+Bhaijaan+2) (via `@fontsource`) — SIL OFL 1.1
+
+(Licence texts are included in `assets/vendor/`.)
+
+---
+
+## فارسی
+
+وب‌اپ رایگان و بدون سرور برای تمرین و مرور **آلمانی سطح A1**؛ کاملاً داخل مرورگر اجرا می‌شود (بدون حساب کاربری و بدون ردیابی) و بعد از اولین بازدید آفلاین هم کار می‌کند.
+
+### امکانات
+
+- **عبارت‌ها و کلمه‌ها:** عبارت‌ها و واژگان به‌تفکیک موضوع (گروه‌های بازشونده) با پخش صدا و حالت «پنهان‌کردن ترجمه» برای خودآزمایی
+- **اعداد:** ۰ تا ۱۰۰ و اعداد ترکیبی با تلفظ
+- **الفبا و تلفظ:** نام حرف‌ها، ترکیب حروف (ß، ä، eu، ei، au، äu، tsch، ö، ü، r، s، ch) و قاعده‌ی حروف بزرگ
+- **فعل و جمله:** جدول صرف با معنی فارسی هر ردیف (باقاعده، بی‌قاعده، möchten، ریشه‌ی t/d)؛ جایگاه ۲ فعل، سؤال با W، سؤال بله/خیر، رسمی و غیررسمی
+- **آرتیکل:** der / das / die با رنگ ثابت، حرف نامعین، نشانه‌های کمکی و لیست اسم‌ها
+- **دیکشنری:** جستجوی آفلاین آلمانی↔فارسی و لیست کلمه‌های شخصی
+- **فلش‌کارت:** مرور فاصله‌دار (Leitner)، دسته‌بندی و تغییر جهت
+- **آزمون:** ۱۴ حالت (ترجمه، آرتیکل، صرف، شنیدن، املا، جمله‌سازی، اعداد، حروف، ترتیب و ...) با نتیجه و مرور اشتباه‌ها
+- **دیزاین:** حالت روشن و تیره؛ نوار پایین روی گوشی و سایدبار روی کامپیوتر
+- **PWA:** قابل نصب روی گوشی و کامپیوتر
+
+### اجرا و انتشار
 
 ```bash
-git clone https://github.com/m1chtv/deutsch-a1.git
+git clone https://github.com/<your-username>/deutsch-a1.git
 cd deutsch-a1
-
-# یکی از این‌ها:
 python3 -m http.server 8080
-# یا
-npx serve .
 ```
 
-سپس `http://localhost:8080` را در مرورگر باز کن.
+برای انتشار روی GitHub Pages: **Settings ▸ Pages ▸ Deploy from a branch ▸ `main` / root**. همه‌ی مسیرها نسبی‌اند.
 
-## 📲 نصب به‌عنوان اپ (PWA)
+### اضافه‌کردن محتوا
 
-- **Android / Chrome:** دکمه‌ی «نصب اپ» بالای صفحه، یا منو ⋮ ◂ *Install app*.
-- **iPhone / Safari:** دکمه‌ی Share ◂ *Add to Home Screen*.
-- **کامپیوتر / Chrome یا Edge:** آیکون نصب در نوار آدرس.
+محتوا در `js/data.js` و `js/dict.js` است (نمونه‌ها در بخش انگلیسی بالا). بعد از هر تغییر، عدد `CACHE` را در `sw.js` بالا ببر.
 
-بعد از اولین بازدید، همه‌ی فایل‌ها (به‌همراه فونت و آیکون‌ها) کش می‌شوند و اپ بدون اینترنت هم کار می‌کند.
+### تلفظ
 
-## ➕ اضافه‌کردن درس جدید
+صدا از موتور گفتار خود دستگاه می‌آید؛ اگر چیزی نشنیدی، صدای آلمانی (Deutsch) را در تنظیمات گفتار دستگاه نصب کن.
 
-همه‌ی محتوا در `js/data.js` است و نیازی به دست‌زدن به کد برنامه نیست.
+### حریم خصوصی
 
-**عبارت جدید** — به آرایه‌ی `P` یک گروه یا یک آیتم `[آلمانی, فارسی]` اضافه کن:
+هیچ داده‌ای به جایی ارسال نمی‌شود. پیشرفت (فلش‌کارت، رکورد آزمون، کلمه‌های ذخیره‌شده، تم) فقط در `localStorage` مرورگر خودت می‌ماند.
 
-```js
-["🏫 عبارت‌های کلاس", [
-  ["Alles klar!", "همه‌چیز روشن است!"],
-  ["Wie bitte?", "ببخشید؟ (چی گفتید؟)"]   // ← جدید
-]],
-```
+### مشارکت
 
-**فعل جدید** — به آرایه‌ی `V` یک آیتم `[مصدر, ریشه, معنی]` اضافه کن (فعل‌های باقاعده خودکار صرف می‌شوند):
+Issue و Pull Request خوش‌آمد است: اصلاح غلط، ترجمه‌ی بهتر، واژگان جدید یا بهبود دسترس‌پذیری. لطفاً مطالب را در سطح A1 نگه دار.
 
-```js
-["spielen", "spiel", "بازی کردن"],
-```
+### سلب مسئولیت
 
-**کلمه‌ی دیکشنری** — به آرایه‌ی `WORDS` در `js/dict.js` یک آیتم `[نوع, آلمانی, فارسی]` اضافه کن؛ نوع: `m` (der)، `f` (die)، `n` (das)، `v` (فعل)، `o` (سایر):
+این پروژه یک ابزار کمک‌آموزشی مستقل است و وابسته به هیچ کتاب، ناشر یا آموزشگاهی نیست و جایگزین آن‌ها نمی‌شود. ترجمه‌ها و مثال‌ها ممکن است اشتباه داشته باشند؛ لطفاً با معلم یا دیکشنری تطبیق بده.
 
-```js
-['m', 'Hund', 'سگ'],
-```
+### مجوز
 
-عبارت‌ها، افعال و اعداد `data.js` خودکار وارد دیکشنری می‌شوند. کاربر هم می‌تواند از تب «دیکشنری ◂ کلمه‌ی من» کلمه‌ی شخصی اضافه کند.
-
-**عدد، حرف و تلفظ** هم به همین شکل در `NUMS`، `ALPH` و `S` هستند.
-
-> آیکون هر گروه از `GROUP_ICONS` در `js/app.js` می‌آید؛ نام آیکون‌ها را از [icons.getbootstrap.com](https://icons.getbootstrap.com/) بردار.
-> بعد از هر تغییر، عدد `CACHE` را در `sw.js` بالا ببر تا کاربران نسخه‌ی جدید را بگیرند.
-
-## 🔊 درباره‌ی تلفظ
-
-تلفظ با موتور گفتار خود مرورگر/گوشی ساخته می‌شود (بدون ارسال داده به سرور). کیفیت آن به صدای آلمانی نصب‌شده روی دستگاه بستگی دارد:
-
-- **Android:** تنظیمات ◂ Text-to-speech ◂ زبان *Deutsch* را نصب کن.
-- **iOS:** تنظیمات ◂ Accessibility ◂ Spoken Content ◂ Voices ◂ German.
-- **Windows:** تنظیمات ◂ Time & Language ◂ Speech ◂ افزودن صدای آلمانی.
-
-اگر صدایی شنیده نشد، ابتدا همین مورد را بررسی کن.
-
-## 🗺️ نقشه‌ی راه
-
-- [x] دیکشنری آفلاین با جستجو، ذخیره و کلمه‌های شخصی
-- [ ] جستجوی آنلاین (مثلاً Wiktionary) برای کلمه‌هایی که در لیست نیستند
-- [ ] جمله‌سازی (مرتب‌کردن کلمه‌های به‌هم‌ریخته)
-- [x] فلش‌کارت با مرور فاصله‌دار (Leitner)
-- [ ] حرف تعریف رنگی (der/die/das)
-- [ ] ضمایر و فعل `sein`، `Woher kommst du?`
-- [ ] روزهای هفته، ماه‌ها، رنگ‌ها و ساعت
-- [ ] تمرین املا و ضبط صدا
-
-## 🤝 مشارکت
-
-Pull Request و Issue خوش‌آمد است. برای اضافه‌کردن محتوای جدید فقط `js/data.js` را ویرایش کن و در توضیح PR بنویس از کدام درس/صفحه‌ی کتاب آمده است.
-
-<div align="center">
-
-ساخته‌شده با ❤️ توسط [**@m1chtv**](https://github.com/m1chtv)
-
-</div>
+کد با مجوز [MIT](LICENSE) منتشر شده است. Bootstrap و Bootstrap Icons (MIT) و فونت Baloo Bhaijaan 2 (SIL OFL 1.1) متعلق به سازندگانشان هستند.
